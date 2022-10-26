@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    float speed = 2f, jumpForce = 10f;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10;
     public LayerMask groundLayer;
     Rigidbody2D rb;
     // Start is called before the first frame update
@@ -25,11 +25,19 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity += Vector2.right * speed;
         }
+        if (rb.velocity.x > maxVelocityX)
+        {
+            rb.velocity = new Vector2 (maxVelocityX, rb.velocity.y);
+        }
+        else if (rb.velocity.x < -maxVelocityX)
+        {
+            rb.velocity = new Vector2(-maxVelocityX, rb.velocity.y);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             rb.velocity += Vector2.up * jumpForce;
         }
@@ -37,7 +45,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        //if(Physics2D.OverlapCircle(transform.position, Vector2.down ,0.2f,groundLayer.value))
+        if (Physics2D.OverlapCircle(transform.position - Vector3.down * 1f, 1f, groundLayer))
+            return true;
         return false;
     }
 }
