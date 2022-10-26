@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        LayerMask groundLayer = 1 << LayerMask.NameToLayer("Terrain");
     }
 
     // Update is called once per frame
