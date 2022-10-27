@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        LayerMask groundLayer = 1 << LayerMask.NameToLayer("Terrain");
+        //LayerMask groundLayer = 1 << LayerMask.NameToLayer("Everything");
     }
 
     // Update is called once per frame
@@ -39,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             rb.velocity += Vector2.up * jumpForce;
         }
@@ -47,16 +46,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(transform.position + Vector3.down * 1f, 1f, groundLayer))
-        {
-            Debug.Log("groudned");
+        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .5f, .5f, groundLayer))//, -2f, -0.5f))
             return true;
-        }
         return false;
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position - Vector3.down, 1f);
     }
 }
