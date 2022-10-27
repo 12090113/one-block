@@ -25,6 +25,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Health <= 0 && gameObject != null)
+        {
+            Destroy(gameObject);
+        }
         switch(currentstate)
         {
             case AIstate.movingforward:
