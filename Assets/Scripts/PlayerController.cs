@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float health = 100;
     [SerializeField]
     float speed = 2f, jumpForce = 10f, maxVelocityX = 10;
     public LayerMask groundLayer;
@@ -48,5 +49,11 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.OverlapCircle(transform.position + Vector3.down * .5f, .5f, groundLayer))
             return true;
         return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position + Vector3.down * .5f, .5f);
     }
 }
