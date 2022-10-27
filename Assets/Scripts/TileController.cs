@@ -15,10 +15,18 @@ public class TileController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            point = Physics2D.Raycast(player.transform.position, point, 5).point;
+            point = Physics2D.Raycast(player.transform.position, point, 5, player.groundLayer).point;
+            //Gizmos.DrawLine(player.transform.position, point);
             Vector3Int selectedTile = tilemp.WorldToCell(point);
             Debug.Log("clicked " + selectedTile);
             tilemp.SetTile(selectedTile, null);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Gizmos.DrawLine(player.transform.position, Physics2D.Raycast(player.transform.position, point, 5, player.groundLayer).point);
     }
 }

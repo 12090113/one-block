@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .5f, .5f, groundLayer))
+        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .6f, .5f, groundLayer))
             return true;
         return false;
     }
@@ -54,6 +54,6 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position + Vector3.down * .5f, .5f);
+        Gizmos.DrawSphere(transform.position + Vector3.down * .6f, .5f);
     }
 }
