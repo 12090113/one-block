@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //LayerMask groundLayer = 1 << LayerMask.NameToLayer("Everything");
     }
 
     // Update is called once per frame
@@ -46,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .5f, .5f, groundLayer))//, -2f, -0.5f))
+        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .5f, .5f, groundLayer))
             return true;
         return false;
     }
