@@ -23,7 +23,6 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerMove = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
