@@ -250,7 +250,7 @@ MonoBehaviour:
   maxVelocityX: 10
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
 --- !u!4 &182538987
 Transform:
   m_ObjectHideFlags: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 188541631}
   - component: {fileID: 188541630}
   - component: {fileID: 188541629}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
