@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity += Vector2.up * jumpForce;
         }
@@ -45,8 +46,16 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(transform.position - Vector3.down * 1f, 1f, groundLayer))
+        if (Physics2D.OverlapCircle(transform.position + Vector3.down * 1f, 1f, groundLayer))
+        {
+            Debug.Log("groudned");
             return true;
+        }
         return false;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position - Vector3.down, 1f);
     }
 }
