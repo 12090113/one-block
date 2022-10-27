@@ -28,11 +28,15 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics2D.OverlapCircle(transform.position + Vector3.down * .6f, .5f, groundLayer))
+        if (Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f) && rb.velocity.y >= 0)
         {
             Jump();
         }
-            if (Health <= 0 && gameObject != null)
+        if (Physics2D.OverlapCircle(transform.position + Vector3.left * .6f + Vector3.down * 0.5f, .1f) && rb.velocity.y >= 0)
+        {
+            Jump();
+        }
+        if (Health <= 0 && gameObject != null)
         {
             Destroy(gameObject);
         }
@@ -65,7 +69,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject == player)
+        if(collision.gameObject.tag == "Block")
         {
             playerMove.health -= damage;
         }

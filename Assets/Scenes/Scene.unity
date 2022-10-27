@@ -393,7 +393,7 @@ MonoBehaviour:
   damage: 10
   enemySpeed: 1.5
   enemyMaxVelocity: 2
-  jumppower: 2
+  jumppower: 3
   currentstate: 0
   groundLayer:
     serializedVersion: 2
