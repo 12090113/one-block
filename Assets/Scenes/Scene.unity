@@ -394,7 +394,7 @@ MonoBehaviour:
   enemySpeed: 1.5
   enemyMaxVelocity: 2
   jumpPower: 3
-  fallDamage: 0.0001
+  fallDamage: 0.001
   blockDamage: 0.01
   currentstate: 0
   groundLayer:
@@ -433,7 +433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &879921215
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5457,4 +5457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962bee3116a5d8a4283d12c0ccf630d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dirtblock: {fileID: 2675061103785249286, guid: d0dbb1ea4ee5fb04f9fc7e0514b0714b, type: 3}
+  dirt: {fileID: 11400000, guid: 139d517c3bb0509429276d48b2eb0ab1, type: 2}
   player: {fileID: 182538986}
