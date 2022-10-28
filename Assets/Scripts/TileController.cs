@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class TileController : MonoBehaviour
 {
+    RuleTile dirt;
+    Texture2D texture;
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
@@ -20,6 +22,10 @@ public class TileController : MonoBehaviour
             //Gizmos.DrawLine(player.transform.position, point);
             Vector3Int selectedTile = tilemp.WorldToCell(point);
             Debug.Log("clicked " + selectedTile);
+            if(tilemp.GetTile(selectedTile) == dirt)
+            {
+
+            }
             tilemp.SetTile(selectedTile, null);
         }
     }
