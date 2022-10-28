@@ -7,6 +7,7 @@ public class TileController : MonoBehaviour
 {
     bool blockInHand;
     TileBase currentBlock;
+    GameObject heldBlock;
     [SerializeField]
     GameObject dirtblock;
     [SerializeField]
@@ -33,12 +34,13 @@ public class TileController : MonoBehaviour
                 Debug.Log(currentBlock.name);
                 tilemp.SetTile(selectedTile, currentBlock);
                 currentBlock = null;
+                Destroy(heldBlock);
             }
             else
             {
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
-                Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
             }
         }
     }
