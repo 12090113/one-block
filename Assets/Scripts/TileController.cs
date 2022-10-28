@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -23,6 +21,8 @@ public class TileController : MonoBehaviour
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
+            if (ray.point == null)
+                return;
             if (currentBlock == null)
                 point = ray.point - ray.normal * 0.1f;
             else
@@ -40,7 +40,8 @@ public class TileController : MonoBehaviour
             {
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
-                heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                if (currentBlock != null)
+                    heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
             }
         }
     }
