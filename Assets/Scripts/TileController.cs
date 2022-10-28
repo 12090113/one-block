@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class TileController : MonoBehaviour
 {
     bool blockInHand;
-    RuleTile currentBlock;
+    TileBase currentBlock;
     [SerializeField]
     GameObject dirtblock;
     [SerializeField]
@@ -22,26 +22,24 @@ public class TileController : MonoBehaviour
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
-            point = ray.point - ray.normal * 0.1f;
-            //Gizmos.DrawLine(player.transform.position, point);
+            if (currentBlock == null)
+                point = ray.point - ray.normal * 0.1f;
+            else
+                point = ray.point - ray.normal * -0.1f;
             Vector3Int selectedTile = tilemp.WorldToCell(point);
             Debug.Log("clicked " + selectedTile);
-            if(tilemp.GetTile(selectedTile) == dirt)
+            if (currentBlock != null)
             {
-                Instantiate(dirtblock,player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
-                currentBlock = (tilemp.GetTile(selectedTile);
-            }
-            if(blockInHand == true)
-            {
-                tilemp.SetTile(selectedTile, null);
+                Debug.Log(currentBlock.name);
+                tilemp.SetTile(selectedTile, currentBlock);
                 currentBlock = null;
             }
             else
             {
+                currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
-                currentBlock = null;
+                Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
             }
-
         }
     }
 
