@@ -26,11 +26,11 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f) && rb.velocity.y >= 0)
+        if (Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f, player.groundLayer) && rb.velocity.y >= 0)
         {
             Jump();
         }
-        if (Physics2D.OverlapCircle(transform.position + Vector3.left * .6f + Vector3.down * 0.5f, .1f) && rb.velocity.y >= 0)
+        if (Physics2D.OverlapCircle(transform.position + Vector3.left * .6f + Vector3.down * 0.5f, .1f, player.groundLayer) && rb.velocity.y >= 0)
         {
             Jump();
         }
