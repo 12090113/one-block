@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float health = 100;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10,ySpeedLimit = 10;
     public LayerMask groundLayer;
     Rigidbody2D rb;
     // Start is called before the first frame update
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && rb.velocity.y <= ySpeedLimit)
         {
             rb.velocity += Vector2.up * jumpForce;
         }
