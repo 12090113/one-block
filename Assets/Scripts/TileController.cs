@@ -5,8 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class TileController : MonoBehaviour
 {
+    [SerializeField]
+    GameObject dirtblock;
+    [SerializeField]
     RuleTile dirt;
-    Texture2D texture;
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
@@ -24,7 +26,7 @@ public class TileController : MonoBehaviour
             Debug.Log("clicked " + selectedTile);
             if(tilemp.GetTile(selectedTile) == dirt)
             {
-
+                Instantiate(dirtblock,player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
             }
             tilemp.SetTile(selectedTile, null);
         }

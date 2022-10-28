@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     PlayerController player;
     [SerializeField]
-    float Health, damage = 10, enemySpeed, enemyMaxVelocity, jumpPower, fallDamage;
+    float Health, damage = 10, enemySpeed, enemyMaxVelocity, jumpPower, fallDamage, blockDamage = 0.01f;
     [SerializeField]
     AIstate currentstate = AIstate.Chasing;
     [SerializeField]
@@ -71,12 +71,16 @@ public class EnemyController : MonoBehaviour
         }
         if(collision.rigidbody != null)
         {
-            Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * fallDamage;
+            Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
             Debug.Log(collision.gameObject.name);
         }
         else
         {
-            Health -= 0.5f * rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) * fallDamage;
+            float KE = 0.5f * rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) * fallDamage;
+            if ((KE) >= 0.1f)
+            {
+            Health -= KE;
+            }
         }
     }
 
