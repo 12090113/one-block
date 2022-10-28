@@ -248,6 +248,7 @@ MonoBehaviour:
   speed: 1
   jumpForce: 5
   maxVelocityX: 10
+  ySpeedLimit: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 129
@@ -387,13 +388,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7259a32f369d96d498d004d931a00d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMove: {fileID: 182538986}
-  player: {fileID: 182538982}
+  player: {fileID: 182538986}
   Health: 100
   damage: 10
   enemySpeed: 1.5
   enemyMaxVelocity: 2
-  jumppower: 3
+  jumpPower: 3
+  fallDamage: 0.05
   currentstate: 0
   groundLayer:
     serializedVersion: 2
