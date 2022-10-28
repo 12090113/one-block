@@ -22,9 +22,13 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity += Vector2.left * speed;
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             rb.velocity += Vector2.right * speed;
+        }
+        else if (IsGrounded())
+        {
+            rb.velocity *= .75f;
         }
         if (rb.velocity.x > maxVelocityX)
         {

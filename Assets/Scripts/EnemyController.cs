@@ -9,13 +9,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     float Health, damage = 10, enemySpeed, enemyMaxVelocity, jumpPower, fallDamage;
     [SerializeField]
-    AIstate currentstate = AIstate.movingforward;
+    AIstate currentstate = AIstate.Chasing;
     [SerializeField]
     LayerMask groundLayer;
     Rigidbody2D rb;
 
     enum AIstate{
-        movingforward,jumping,idle
+        Chasing,Idle
     }
     // Start is called before the first frame update
     void Start()
@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour
         }
         switch(currentstate)
         {
-            case AIstate.movingforward:
+            case AIstate.Chasing:
                 if (player.transform.position.x > transform.position.x)
                 {
                     rb.velocity = new Vector2(enemySpeed, rb.velocity.y);
@@ -58,9 +58,7 @@ public class EnemyController : MonoBehaviour
                     rb.velocity = new Vector2(-enemyMaxVelocity, rb.velocity.y);
                 }
                 break;
-            case AIstate.jumping:
-                break;
-            case AIstate.idle:
+            case AIstate.Idle:
                 break;
         }
     }
