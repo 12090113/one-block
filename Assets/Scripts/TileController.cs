@@ -29,14 +29,17 @@ public class TileController : MonoBehaviour
             if(tilemp.GetTile(selectedTile) == dirt)
             {
                 Instantiate(dirtblock,player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                currentBlock = (tilemp.GetTile(selectedTile);
             }
             if(blockInHand == true)
             {
                 tilemp.SetTile(selectedTile, null);
+                currentBlock = null;
             }
             else
             {
-
+                tilemp.SetTile(selectedTile, null);
+                currentBlock = null;
             }
 
         }
