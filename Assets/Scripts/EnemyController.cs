@@ -5,11 +5,9 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    PlayerController playerMove;
+    PlayerController player;
     [SerializeField]
-    GameObject player;
-    [SerializeField]
-    float Health, damage = 10, enemySpeed, enemyMaxVelocity, jumppower;
+    float Health, damage = 10, enemySpeed, enemyMaxVelocity, jumpPower, fallDamage;
     [SerializeField]
     AIstate currentstate = AIstate.movingforward;
     [SerializeField]
@@ -69,14 +67,18 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Block")
+        if(collision.gameObject == player.gameObject)
         {
-            playerMove.health -= damage;
+            player.health -= damage;
         }
         if(collision.rigidbody != null)
         {
-            Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.rigidbody.velocity.magnitude, 2);
+            Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * fallDamage;
             Debug.Log(collision.gameObject.name);
+        }
+        else
+        {
+            Health -= 0.5f * rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) * fallDamage;
         }
     }
 
@@ -89,6 +91,6 @@ public class EnemyController : MonoBehaviour
 
     public void Jump()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumppower);
+        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
     }
 }
