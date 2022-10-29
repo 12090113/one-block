@@ -5,7 +5,6 @@ public class TileController : MonoBehaviour
 {
     bool blockInHand;
     TileBase currentBlock;
-    GameObject heldBlock;
     [SerializeField]
     GameObject dirtblock;
     [SerializeField]
@@ -22,7 +21,11 @@ public class TileController : MonoBehaviour
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
             if (ray.point == null)
+            {
+                Debug.Log("hi");
                 return;
+            }
+
             if (currentBlock == null)
                 point = ray.point - ray.normal * 0.1f;
             else
@@ -34,14 +37,15 @@ public class TileController : MonoBehaviour
                 Debug.Log(currentBlock.name);
                 tilemp.SetTile(selectedTile, currentBlock);
                 currentBlock = null;
-                Destroy(heldBlock);
+                Destroy(player.heldBlock);
             }
             else
             {
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
-                    heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
             }
         }
     }

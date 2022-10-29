@@ -244,14 +244,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff721a929ee4578489c4b727327f8c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heldBlock: {fileID: 0}
   health: 100
   speed: 1
   jumpForce: 5
   maxVelocityX: 10
   ySpeedLimit: 5
+  blockpower: 9999
+  timer: 0
+  maxpower: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 129
+  rb: {fileID: 0}
+  blockrb: {fileID: 0}
 --- !u!4 &182538987
 Transform:
   m_ObjectHideFlags: 0

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject heldBlock;
     public float health = 100;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10,ySpeedLimit = 10;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, maxpower = 20;
     public LayerMask groundLayer;
-    Rigidbody2D rb;
+    public Rigidbody2D rb, blockrb;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +44,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && rb.velocity.y <= ySpeedLimit)
         {
             rb.velocity += Vector2.up * jumpForce;
+        }
+        if(Input.GetMouseButtonDown(1) && blockrb != null)
+        {
+            Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            blockrb.AddForce(blockpower * (point - (Vector2)transform.position).normalized);
         }
     }
 
