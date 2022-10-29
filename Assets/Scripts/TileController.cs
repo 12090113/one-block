@@ -3,7 +3,6 @@ using UnityEngine.Tilemaps;
 
 public class TileController : MonoBehaviour
 {
-    bool blockInHand;
     TileBase currentBlock;
     GameObject heldBlock;
     [SerializeField]
@@ -20,17 +19,20 @@ public class TileController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
+            RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
             if (ray.point == null)
                 return;
             if (currentBlock == null)
                 point = ray.point - ray.normal * 0.1f;
             else
-                point = ray.point - ray.normal * -0.1f;
+                point = ray.point + ray.normal * 0.1f;
             Vector3Int selectedTile = tilemp.WorldToCell(point);
-            Debug.Log("clicked " + selectedTile);
             if (currentBlock != null)
             {
+                if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f)))
+                {
+                    return;
+                }
                 Debug.Log(currentBlock.name);
                 tilemp.SetTile(selectedTile, currentBlock);
                 currentBlock = null;
