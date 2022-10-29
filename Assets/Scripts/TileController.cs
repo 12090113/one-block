@@ -47,6 +47,7 @@ public class TileController : MonoBehaviour
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
                 player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
+                if(player.heldBlock != null)
                 player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
             }
         }
