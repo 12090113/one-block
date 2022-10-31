@@ -19,7 +19,7 @@ public class TileController : MonoBehaviour
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
-            if (ray.point == null)
+            if (ray.collider == null)
             {
                 Debug.Log("hi");
                 return;
