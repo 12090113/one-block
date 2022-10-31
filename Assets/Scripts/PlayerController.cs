@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, maxpower = 20;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
+    public bool thrown;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +46,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity += Vector2.up * jumpForce;
         }
-        if(Input.GetMouseButtonDown(1) && blockrb != null)
+        if(Input.GetMouseButtonDown(1) && blockrb != null && thrown == false)
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             blockrb.AddForce(blockpower * (point - (Vector2)transform.position).normalized);
+            thrown = true;
         }
     }
 

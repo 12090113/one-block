@@ -15,9 +15,12 @@ public class TileController : MonoBehaviour
         tilemp = GetComponent<Tilemap>();
     }
     void Update() {
+        //if left click
         if (Input.GetMouseButtonDown(0))
         {
+            //get the position of the mouse
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Ray for placing blocks
             RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
             if (ray.collider == null)
             {
@@ -30,19 +33,29 @@ public class TileController : MonoBehaviour
             else
                 point = ray.point + ray.normal * 0.1f;
             Vector3Int selectedTile = tilemp.WorldToCell(point);
+            //If current type of block exists
             if (currentBlock != null)
             {
+                //mouse check where position. Set selection to center of block
                 if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f)))
                 {
                     return;
                 }
                 Debug.Log(currentBlock.name);
+                //set tile at location to currentBlock type.
                 tilemp.SetTile(selectedTile, currentBlock);
+                //set block to already thrown
+                player.thrown = false;
+                //set the blocktype to null.
                 currentBlock = null;
+                //set gameobject block to null.
+                player.heldBlock = null;
                 Destroy(player.heldBlock);
             }
+            //if current type of block doesn't exist
             else
             {
+                
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
