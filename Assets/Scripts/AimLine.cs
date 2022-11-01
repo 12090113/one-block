@@ -33,6 +33,7 @@ public class AimLine : MonoBehaviour
 
     public void Throwing(Vector2 initialVelocity)
     {
+        transform.position = PC.heldBlock.transform.position;
         positions = new Vector3[length];
         lr.positionCount = length;
         for (int i = 0; i < positions.Length; i++)
