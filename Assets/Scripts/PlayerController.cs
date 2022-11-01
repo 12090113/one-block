@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
-            blockrb.AddForce(blockpower * direction);
+            blockrb.AddForce(blockpower * direction, ForceMode2D.Impulse);
             heldBlock = null;
             blockrb = null;
             tc.currentBlock = null;
