@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class TileController : MonoBehaviour
 {
-    TileBase currentBlock;
+    public TileBase currentBlock;
     [SerializeField]
     GameObject dirtblock;
     [SerializeField]
@@ -44,18 +44,14 @@ public class TileController : MonoBehaviour
                 Debug.Log(currentBlock.name);
                 //set tile at location to currentBlock type.
                 tilemp.SetTile(selectedTile, currentBlock);
-                //set block to already thrown
-                player.thrown = false;
                 //set the blocktype to null.
-                currentBlock = null;
                 //set gameobject block to null.
-                player.heldBlock = null;
                 Destroy(player.heldBlock);
+                currentBlock = null;
             }
             //if current type of block doesn't exist
             else
             {
-                
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
