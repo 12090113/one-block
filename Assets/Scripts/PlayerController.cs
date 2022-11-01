@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, maxpower = 20;
     [SerializeField]
     TileController tc;
+    AimLine AL;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
     // Start is called before the first frame update
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
+        AL = GetComponentInChildren<AimLine>();
     }
 
     // Update is called once per frame
@@ -48,10 +50,17 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity += Vector2.up * jumpForce;
         }
-        if(Input.GetMouseButtonDown(1) && blockrb != null)
+        if (Input.GetMouseButton(1) && blockrb != null)
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            blockrb.AddForce(blockpower * (point - (Vector2)transform.position).normalized);
+            Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
+            AL.Throwing(direction * blockpower);
+        }
+        if(Input.GetMouseButtonUp(1) && blockrb != null)
+        {
+            Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
+            blockrb.AddForce(blockpower * direction);
             heldBlock = null;
             blockrb = null;
             tc.currentBlock = null;
