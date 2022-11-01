@@ -57,7 +57,10 @@ public class TileController : MonoBehaviour
                 if (currentBlock != null)
                 player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
                 if(player.heldBlock != null)
-                player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                {
+                    player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
+                    player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                }
             }
         }
     }
