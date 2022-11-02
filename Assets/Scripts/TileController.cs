@@ -83,6 +83,8 @@ public class TileController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Gizmos.DrawLine(player.transform.position, Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer).point);
+        var ray = Physics2D.Raycast(player.transform.position, point - (Vector2)player.transform.position, 100, player.groundLayer);
+        if (ray.collider != null)
+            Gizmos.DrawLine(player.transform.position, ray.point);
     }
 }
