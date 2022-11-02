@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame

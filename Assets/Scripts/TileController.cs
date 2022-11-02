@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,6 +12,10 @@ public class TileController : MonoBehaviour
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
+
+    [SerializeField]
+    public Dictionary<RuleTile, float> mass = new Dictionary<RuleTile, float>();
+
     void Start() {
         tilemp = GetComponent<Tilemap>();
     }
@@ -63,6 +68,7 @@ public class TileController : MonoBehaviour
                     player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
                     player.heldBlock.GetComponent<Block>().tile = currentBlock;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                    //player.blockrb.mass = 
                 }
                 else if (ray.collider.tag == "Block")
                 {

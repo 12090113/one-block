@@ -1,26 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    private Transform player;
+    [SerializeField]
+    private GameObject enemy;
+    float timer = 0, spawntime = 1;
+    int maxenemies = 3;
+    [SerializeField]
+    List <GameObject> enemies;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        timer += Time.fixedDeltaTime;
+        var vertExtent = Camera.main.orthographicSize;
+        var horzExtent = vertExtent * Screen.width / Screen.height;
+        float pos = Random.Range(horzExtent, horzExtent * 1.5f);
 
-        if(Physics2D.OverlapCircle(transform.position + Vector3.down * .6f, .5f))
+        if (enemies.Count >= maxenemies)
+            return;
+
+        RaycastHit2D ray = Physics2D.Raycast(new Vector2(pos, 10000) + (Vector2)transform.position, Vector2.down, Mathf.Infinity) ;
+        if(ray.collider == null)
         {
-            transform.Translate(Vector2.up);
+            Debug.Log("code lost job. Code unemployed. Help find Code Job");
+            return;
         }
+
+        if(ray.collider.tag == "TileMap")
+        {
+            if(timer > spawntime)
+            {
+                enemies.Add(Instantiate(enemy, ray.point + Vector2.up , Quaternion.identity));
+                spawntime = 0;
+                
+            }
+        }
+
 
     }
 }
