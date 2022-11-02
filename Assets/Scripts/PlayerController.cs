@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity += Vector2.right * speed;
         }
-        else if (IsGrounded())
+        else if (IsGrounded() && rb.velocity.y < 0.1f && rb.velocity.y > -0.1f)
         {
             rb.velocity *= .75f;
         }
