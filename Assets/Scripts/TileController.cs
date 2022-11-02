@@ -20,6 +20,7 @@ public class TileController : MonoBehaviour
         {
             //get the position of the mouse
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
             //Ray for placing blocks
             RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
             if (ray.collider == null)
@@ -28,11 +29,13 @@ public class TileController : MonoBehaviour
                 return;
             }
 
+
             if (currentBlock == null)
                 point = ray.point - ray.normal * 0.1f;
             else
                 point = ray.point + ray.normal * 0.1f;
             Vector3Int selectedTile = tilemp.WorldToCell(point);
+
             //If current type of block exists
             if (currentBlock != null)
             {
@@ -55,10 +58,21 @@ public class TileController : MonoBehaviour
                 currentBlock = tilemp.GetTile(selectedTile);
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
-                player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity, player.gameObject.transform);
-                if(player.heldBlock != null)
                 {
+                    player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity);
                     player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
+                    player.heldBlock.GetComponent<Block>().tile = currentBlock;
+                    player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                }
+                else if (ray.collider.tag == "Block")
+                {
+                    currentBlock = tilemp.GetTile(selectedTile);
+                    ray.collider.gameObject.transform.position = player.transform.position + Vector3.up * 2;
+                    ray.collider.gameObject.transform.rotation = Quaternion.identity;
+                    ray.collider.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+                    player.heldBlock = ray.collider.gameObject;
+                    currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
                 }
             }
