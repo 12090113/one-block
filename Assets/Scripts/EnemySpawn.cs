@@ -27,24 +27,21 @@ public class EnemySpawn : MonoBehaviour
     void FixedUpdate()
     {
         timer += Time.fixedDeltaTime;
-        var vertExtent = Camera.main.orthographicSize;
-        var horzExtent = vertExtent * Screen.width / Screen.height;
-        float pos = Random.Range(horzExtent, horzExtent * 1.5f);
-
-        if(enemieskilled >= wincondition)
+        if (enemieskilled >= wincondition)
         {
             winScreen.SetActive(true);
             enemieskilled = int.MinValue;
         }
 
-
-        if (enemies.Count >= maxenemies)
+        if (timer < spawnInterval || enemies.Count >= maxenemies)
             return;
+        var vertExtent = Camera.main.orthographicSize;
+        var horzExtent = vertExtent * Screen.width / Screen.height;
+        float pos = Random.Range(horzExtent, horzExtent + 50) * (Random.Range(0,2)*2-1);
 
         RaycastHit2D ray = Physics2D.Raycast(new Vector2(pos, 10000) + (Vector2)transform.position, Vector2.down, Mathf.Infinity) ;
         if(ray.collider == null)
         {
-            Debug.Log("code lost job. Code unemployed. Help find Code Job");
             return;
         }
 

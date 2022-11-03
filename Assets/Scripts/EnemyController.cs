@@ -28,12 +28,12 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         Collider2D circle = Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f, player.groundLayer);
-        if (circle && circle.gameObject.tag.Equals("TileMap") && rb.velocity.y >= 0)
+        if (circle && (circle.gameObject.tag.Equals("TileMap") || circle.gameObject.tag.Equals("Block")) && rb.velocity.y >= 0)
         {
             Jump();
         }
         circle = Physics2D.OverlapCircle(transform.position + Vector3.left * .6f + Vector3.down * 0.5f, .1f, player.groundLayer);
-        if (circle && circle.gameObject.tag.Equals("TileMap") && rb.velocity.y >= 0)
+        if (circle && (circle.gameObject.tag.Equals("TileMap") || circle.gameObject.tag.Equals("Block")) && rb.velocity.y >= 0)
         {
             Jump();
         }
@@ -75,7 +75,6 @@ public class EnemyController : MonoBehaviour
         if(collision.rigidbody != null)
         {
             Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
-            Debug.Log(collision.gameObject.name);
         }
         else
         {

@@ -68,6 +68,7 @@ public class TileController : MonoBehaviour
                     player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
                     player.heldBlock.GetComponent<Block>().tile = currentBlock;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                    player.blockrb.velocity = player.rb.velocity;
                     //player.blockrb.mass = 
                 }
                 else if (ray.collider.tag == "Block")
@@ -75,11 +76,11 @@ public class TileController : MonoBehaviour
                     currentBlock = tilemp.GetTile(selectedTile);
                     ray.collider.gameObject.transform.position = player.transform.position + Vector3.up * 2;
                     ray.collider.gameObject.transform.rotation = player.transform.rotation;
-                    ray.collider.gameObject.GetComponent<Rigidbody2D>().velocity = player.rb.velocity;
 
                     player.heldBlock = ray.collider.gameObject;
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                    player.blockrb.velocity = player.rb.velocity;
                 }
             }
         }

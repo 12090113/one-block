@@ -31,15 +31,21 @@ public class AimLine : MonoBehaviour
         }
     }
 
-    public void Throwing(Vector2 initialVelocity)
+    public void Throwing(Vector2 force, float mass)
     {
         transform.position = PC.heldBlock.transform.position;
         positions = new Vector3[length];
         lr.positionCount = length;
-        for (int i = 0; i < positions.Length; i++)
+        Vector3 pos = Vector3.zero;
+        Vector3 vel = force / mass;
+        positions[0] = pos;
+        for (int i = 1; i < positions.Length; i++)
         {
             float time = i * kirbyiness;
-            Vector3 pos = new Vector3(initialVelocity.x * time, .5f * -9.8f * Mathf.Pow(time, 2) + initialVelocity.y * time, 0);
+            //Vector3 vel = new Vector3(initialVelocity.x * time, .5f * -9.8f * Mathf.Pow(time, 2) + initialVelocity.y * time, 0);
+            vel += Vector3.down * 9.8f * time;
+            Debug.Log(vel + " " + time);
+            pos = pos + vel * time;
             positions[i] = pos;
         }
         lr.SetPositions(positions);
