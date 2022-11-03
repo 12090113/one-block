@@ -102,5 +102,6 @@ public class EnemyController : MonoBehaviour
     private void OnDestroy()
     {
         EC.enemies.Remove(gameObject);
+        EC.enemieskilled++;
     }
 }

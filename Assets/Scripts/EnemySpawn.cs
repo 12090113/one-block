@@ -10,6 +10,10 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField]
     private GameObject enemy;
     float timer = 0, spawntime = 1;
+    [SerializeField]
+    GameObject winScreen;
+    public int enemieskilled;
+    int wincondition = 10;
     int maxenemies = 3;
     [SerializeField]
     public List <GameObject> enemies;
@@ -25,6 +29,13 @@ public class EnemySpawn : MonoBehaviour
         var vertExtent = Camera.main.orthographicSize;
         var horzExtent = vertExtent * Screen.width / Screen.height;
         float pos = Random.Range(horzExtent, horzExtent * 1.5f);
+
+        if(enemieskilled >= wincondition)
+        {
+            winScreen.SetActive(true);
+            enemieskilled = int.MinValue;
+        }
+
 
         if (enemies.Count >= maxenemies)
             return;
