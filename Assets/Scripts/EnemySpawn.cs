@@ -9,8 +9,9 @@ public class EnemySpawn : MonoBehaviour
 {
     [SerializeField]
     private GameObject enemy;
-    float timer = 0, spawntime = 1;
-    int maxenemies = 3;
+    float timer = 0;
+    public float spawnInterval = 1;
+    public int maxenemies = 3;
     [SerializeField]
     public List <GameObject> enemies;
     // Start is called before the first frame update
@@ -38,10 +39,10 @@ public class EnemySpawn : MonoBehaviour
 
         if(ray.collider.tag == "TileMap")
         {
-            if(timer > spawntime)
+            if(timer > spawnInterval)
             {
                 enemies.Add(Instantiate(enemy, ray.point + Vector2.up , Quaternion.identity));
-                spawntime = 0;
+                spawnInterval = 0;
                 
             }
         }
