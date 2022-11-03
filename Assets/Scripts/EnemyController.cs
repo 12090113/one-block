@@ -68,7 +68,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject == player.gameObject)
+        if(collision.gameObject != null && collision.gameObject == player.gameObject)
         {
             player.health -= damage;
         }
