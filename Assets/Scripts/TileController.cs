@@ -74,8 +74,8 @@ public class TileController : MonoBehaviour
                 {
                     currentBlock = tilemp.GetTile(selectedTile);
                     ray.collider.gameObject.transform.position = player.transform.position + Vector3.up * 2;
-                    ray.collider.gameObject.transform.rotation = Quaternion.identity;
-                    ray.collider.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    ray.collider.gameObject.transform.rotation = player.transform.rotation;
+                    ray.collider.gameObject.GetComponent<Rigidbody2D>().velocity = player.rb.velocity;
 
                     player.heldBlock = ray.collider.gameObject;
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;

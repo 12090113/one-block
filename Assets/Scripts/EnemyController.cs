@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    EnemySpawn EC;
     [SerializeField]
     PlayerController player;
     [SerializeField]
@@ -18,6 +19,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EC = FindObjectOfType<EnemySpawn>();
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
     }
@@ -93,5 +95,10 @@ public class EnemyController : MonoBehaviour
     public void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+    }
+
+    private void OnDestroy()
+    {
+        EC.enemies.Remove(gameObject);
     }
 }

@@ -12,7 +12,7 @@ public class EnemySpawn : MonoBehaviour
     float timer = 0, spawntime = 1;
     int maxenemies = 3;
     [SerializeField]
-    List <GameObject> enemies;
+    public List <GameObject> enemies;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +45,5 @@ public class EnemySpawn : MonoBehaviour
                 
             }
         }
-
-
     }
 }
