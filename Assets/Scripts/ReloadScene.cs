@@ -20,5 +20,6 @@ public class ReloadScene : MonoBehaviour
     public void StartAgain()
     {
         destroy.SetActive(false);
+        Time.timeScale = 1;
     }
 }
