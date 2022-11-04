@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,8 +12,10 @@ public class TileController : MonoBehaviour
     [SerializeField]
     PlayerController player;
 
-    [SerializeField]
-    public SerializableDictionary<TileBase, float> mass = new SerializableDictionary<TileBase, float>();
+    [Serializable]
+    public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
+    public TileFloatDictionary mass = new TileFloatDictionary {};
+
     [ExecuteInEditMode]
     private void Awake()
     {
@@ -79,13 +82,14 @@ public class TileController : MonoBehaviour
                 else if (ray.collider.tag == "Block")
                 {
                     currentBlock = tilemp.GetTile(selectedTile);
+                    ray.collider.gameObject.transform.rotation = Quaternion.identity;
                     ray.collider.gameObject.transform.position = player.transform.position + Vector3.up * 2;
-                    ray.collider.gameObject.transform.rotation = player.transform.rotation;
 
                     player.heldBlock = ray.collider.gameObject;
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
                     player.blockrb.velocity = player.rb.velocity;
+                    player.blockrb.angularVelocity = 0;
                     player.joint.enabled = true;
                     player.joint.connectedBody = player.blockrb;
                 }
