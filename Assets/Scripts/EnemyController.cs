@@ -13,7 +13,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     LayerMask groundLayer;
     Rigidbody2D rb;
-    GameObject collisionObject;
     float timer, hittime = 1;
     bool isTouching;
     enum AIstate{
@@ -45,7 +44,7 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(collisionObject != null && timer >= hittime && isTouching == true)
+        if(timer >= hittime && isTouching == true)
         {
             player.health -= damage;
             timer = 0;
@@ -77,8 +76,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collisionObject = collision.gameObject;
-        if(collision.gameObject != null && collision.gameObject == player.gameObject)
+        if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             isTouching = true;
         }
@@ -86,7 +84,7 @@ public class EnemyController : MonoBehaviour
         {
             Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
         }
-        else
+        else if (rb != null)
         {
             float KE = 0.5f * rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) * fallDamage;
             if ((KE) >= 0.1f)
