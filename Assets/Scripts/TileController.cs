@@ -7,14 +7,17 @@ public class TileController : MonoBehaviour
     public TileBase currentBlock;
     [SerializeField]
     GameObject dirtblock;
-    [SerializeField]
-    RuleTile dirt;
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
 
     [SerializeField]
-    public Dictionary<RuleTile, float> mass = new Dictionary<RuleTile, float>();
+    public SerializableDictionary<TileBase, float> mass = new SerializableDictionary<TileBase, float>();
+    [ExecuteInEditMode]
+    private void Awake()
+    {
+
+    }
 
     void Start() {
         tilemp = GetComponent<Tilemap>();
@@ -68,6 +71,7 @@ public class TileController : MonoBehaviour
                     player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
                     player.heldBlock.GetComponent<Block>().tile = currentBlock;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
+                    player.blockrb.mass = mass[currentBlock];
                     player.blockrb.velocity = player.rb.velocity;
                     player.joint.enabled = true;
                     player.joint.connectedBody = player.blockrb;
