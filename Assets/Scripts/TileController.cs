@@ -69,7 +69,8 @@ public class TileController : MonoBehaviour
                     player.heldBlock.GetComponent<Block>().tile = currentBlock;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
                     player.blockrb.velocity = player.rb.velocity;
-                    //player.blockrb.mass = 
+                    player.joint.enabled = true;
+                    player.joint.connectedBody = player.blockrb;
                 }
                 else if (ray.collider.tag == "Block")
                 {
@@ -81,6 +82,8 @@ public class TileController : MonoBehaviour
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
                     player.blockrb.velocity = player.rb.velocity;
+                    player.joint.enabled = true;
+                    player.joint.connectedBody = player.blockrb;
                 }
             }
         }

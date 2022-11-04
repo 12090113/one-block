@@ -11,12 +11,14 @@ public class PlayerController : MonoBehaviour
     AimLine AL;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
+    public FixedJoint2D joint;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
         AL = GetComponentInChildren<AimLine>();
+        joint = GetComponent<FixedJoint2D>();
     }
 
     // Update is called once per frame
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetMouseButtonUp(1) && blockrb != null)
         {
+            joint.enabled = false;
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
             blockrb.AddForce(blockpower * direction, ForceMode2D.Impulse);
