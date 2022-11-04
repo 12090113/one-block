@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
         if (Input.mouseScrollDelta.y != 0f)
         {
             scroll += -cam.orthographicSize * Input.mouseScrollDelta.y * scrollSpeed;
-            scroll = Mathf.Clamp(scroll, 1, 10000);
+            scroll = Mathf.Clamp(scroll, 3, 20);
         }
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, scroll, 0.1f);
     }

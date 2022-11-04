@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -68,7 +69,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject != null && collision.gameObject == player.gameObject)
+        if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             player.health -= damage;
         }
@@ -76,7 +77,7 @@ public class EnemyController : MonoBehaviour
         {
             Health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
         }
-        else
+        else if (rb != null)
         {
             float KE = 0.5f * rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) * fallDamage;
             if ((KE) >= 0.1f)
