@@ -30,6 +30,7 @@ public class EnemySpawn : MonoBehaviour
         if (enemieskilled >= wincondition)
         {
             winScreen.SetActive(true);
+            Time.timeScale = 0;
             enemieskilled = int.MinValue;
         }
 

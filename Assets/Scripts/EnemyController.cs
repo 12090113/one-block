@@ -13,7 +13,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     LayerMask groundLayer;
     Rigidbody2D rb;
-
+    float timer, hittime = 1;
+    bool isTouching;
     enum AIstate{
         Chasing,Idle
     }
@@ -26,8 +27,9 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        timer += Time.fixedDeltaTime;
         Collider2D circle = Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f, player.groundLayer);
         if (circle && (circle.gameObject.tag.Equals("TileMap") || circle.gameObject.tag.Equals("Block")) && rb.velocity.y >= 0)
         {
@@ -41,6 +43,11 @@ public class EnemyController : MonoBehaviour
         if (Health <= 0 && gameObject != null)
         {
             Destroy(gameObject);
+        }
+        if(timer >= hittime && isTouching == true)
+        {
+            player.health -= damage;
+            timer = 0;
         }
         switch(currentstate)
         {
@@ -71,7 +78,7 @@ public class EnemyController : MonoBehaviour
     {
         if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
-            player.health -= damage;
+            isTouching = true;
         }
         if(collision.rigidbody != null)
         {
@@ -84,6 +91,14 @@ public class EnemyController : MonoBehaviour
             {
             Health -= KE;
             }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject != null)
+        {
+            isTouching = false;
         }
     }
 
