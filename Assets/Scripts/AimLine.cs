@@ -12,9 +12,6 @@ public class AimLine : MonoBehaviour
     [SerializeField]
     LineRenderer lr;
     Vector3[] positions;
-    float x = 1.01f;
-    //(point - (Vector2)transform.position).normalized)
-    // Start is called before the first frame update
     void Start()
     {
         PC = GetComponentInParent<PlayerController>();
@@ -22,7 +19,6 @@ public class AimLine : MonoBehaviour
         lr.positionCount = length;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButtonUp(1))
@@ -37,16 +33,10 @@ public class AimLine : MonoBehaviour
         positions = new Vector3[length];
         lr.positionCount = length;
         Vector3 initialVelocity = force / mass;
-        //Vector3 pos = Vector3.zero;
-        //Vector3 vel = force / mass;
-        //positions[0] = pos;
         for (int i = 1; i < positions.Length; i++)
         {
             float time = i * kirbyiness;
-            Vector3 pos = new Vector3(initialVelocity.x * time, .5f * -9.81f * Mathf.Pow(time, 2) + initialVelocity.y * time, 0);
-            //vel += Vector3.down * 9.8f * time;
-            //Debug.Log(vel + " " + time);
-            //pos = pos + vel * time;
+            Vector3 pos = new Vector3(initialVelocity.x * time, .5f * Physics2D.gravity.y * Mathf.Pow(time, 2) + initialVelocity.y * time, 0);
             positions[i] = pos;
         }
         lr.SetPositions(positions);
