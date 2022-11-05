@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     public GameObject heldBlock;
     public float health = 100;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, maxpower = 20;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, minpower = 10, maxpower = 30;
     [SerializeField]
     TileController tc;
     AimLine AL;
@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
             AL.Throwing(direction * blockpower, blockrb.mass);
+            if (blockpower < maxpower)
+                blockpower += Time.deltaTime * 1000;
         }
         if(Input.GetMouseButtonUp(1) && blockrb != null)
         {
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
             heldBlock = null;
             blockrb = null;
             tc.currentBlock = null;
+            blockpower = minpower;
         }
     }
 
