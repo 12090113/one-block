@@ -31,6 +31,9 @@ public class EnemyController : MonoBehaviour
     {
         timer += Time.fixedDeltaTime;
         Collider2D circle = Physics2D.OverlapCircle(transform.position + Vector3.right * .6f + Vector3.down * 0.5f, .1f, player.groundLayer);
+
+        
+
         if (circle && (circle.gameObject.tag.Equals("TileMap") || circle.gameObject.tag.Equals("Block")) && rb.velocity.y >= 0)
         {
             Jump();
