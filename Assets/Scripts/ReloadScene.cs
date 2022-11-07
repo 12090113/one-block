@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 public class ReloadScene : MonoBehaviour
 {
-    public GameObject winScreen;
-    public GameObject loseScreen;
+    public GameObject canvas;
     // Start is called before the first frame update
     void Start()
     {
-        winScreen.SetActive(false);
-        loseScreen.SetActive(false);
+        canvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -22,13 +20,13 @@ public class ReloadScene : MonoBehaviour
 
     public void StartAgain()
     {
-        winScreen.SetActive(false);
+        canvas.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void Retry()
     {
-        loseScreen.SetActive(false);
+        canvas.SetActive(false);
         Time.timeScale = 1;
     }
 }

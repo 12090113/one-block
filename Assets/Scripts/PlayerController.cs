@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        loseScreen = FindObjectOfType<ReloadScene>().loseScreen;
+        Debug.Log("Player Start");
+        loseScreen = FindObjectOfType<ReloadScene>().canvas;
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
         AL = GetComponentInChildren<AimLine>();
