@@ -48,13 +48,15 @@ public class EnemyTwo : MonoBehaviour
 
         if(rb.velocity.x > maxVelocityX)
         {
+            Debug.Log("Right");
             rb.velocity = new Vector2(maxVelocityX, rb.velocity.y);
-            ray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, Mathf.Infinity);
+            //ray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, Mathf.Infinity);
         }
         if(rb.velocity.x < -maxVelocityX)
         {
+            Debug.Log("Left");
             rb.velocity = new Vector2(-maxVelocityX, rb.velocity.y);
-            ray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, Mathf.Infinity);
+            //ray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, Mathf.Infinity);
         }
 
 

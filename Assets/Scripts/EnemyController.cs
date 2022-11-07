@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    GameObject camera;
     EnemySpawn EC;
     [SerializeField]
     PlayerController player;
@@ -12,6 +13,8 @@ public class EnemyController : MonoBehaviour
     AIstate currentstate = AIstate.Chasing;
     [SerializeField]
     LayerMask groundLayer;
+    [SerializeField]
+    GameObject LoseScreen;
     Rigidbody2D rb;
     float timer, hittime = 1;
     bool isTouching;
@@ -21,6 +24,8 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        camera = Camera.main.gameObject;
+        LoseScreen = camera.GetComponent<ReloadScene>().loseScreen;
         EC = FindObjectOfType<EnemySpawn>();
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
@@ -82,6 +87,11 @@ public class EnemyController : MonoBehaviour
         if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             isTouching = true;
+            if (player.health <= 0)
+            {
+                LoseScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
         }
         if(collision.rigidbody != null)
         {

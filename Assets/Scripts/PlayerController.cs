@@ -5,13 +5,15 @@ public class PlayerController : MonoBehaviour
     public GameObject heldBlock;
     public float health = 100;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, minpower = 10, maxpower = 30;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.5f;
     [SerializeField]
     TileController tc;
     AimLine AL;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
     public FixedJoint2D joint;
+    public SpriteRenderer sR;
+    private Color red = Color.red;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +21,20 @@ public class PlayerController : MonoBehaviour
         tc = FindObjectOfType<TileController>();
         AL = GetComponentInChildren<AimLine>();
         joint = GetComponent<FixedJoint2D>();
+        sR = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(damageTimer >= 0)
+        {
+            damageTimer += Time.deltaTime;
+            if(damageTimer >= damageInterval)
+            {
+                sR.color = Color.white;
+            }
+        }
         if(Input.GetKey(KeyCode.A))
         {
             rb.velocity += Vector2.left * speed;
@@ -85,4 +96,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position + Vector3.down * .6f, .5f);
     }
+
+    public void DamageTaken()
+    {
+        damageTimer += 0.01f;
+        sR.color = Color.red;
+    }
+
 }
