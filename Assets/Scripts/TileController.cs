@@ -12,11 +12,9 @@ public class TileController : MonoBehaviour
     [SerializeField]
     PlayerController player;
 
-    /*
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
     public TileFloatDictionary mass = new TileFloatDictionary {};
-    */
 
     [ExecuteInEditMode]
     private void Awake()
@@ -76,7 +74,7 @@ public class TileController : MonoBehaviour
                     player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
                     player.heldBlock.GetComponent<Block>().tile = currentBlock;
                     player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
-                    //player.blockrb.mass = mass[currentBlock];
+                    player.blockrb.mass = mass[currentBlock];
                     player.blockrb.velocity = player.rb.velocity;
                     player.joint.enabled = true;
                     player.joint.connectedBody = player.blockrb;
