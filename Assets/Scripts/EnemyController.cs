@@ -87,11 +87,6 @@ public class EnemyController : MonoBehaviour
         if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             isTouching = true;
-            if (player.health <= 0)
-            {
-                LoseScreen.SetActive(true);
-                Time.timeScale = 0;
-            }
         }
         if(collision.rigidbody != null)
         {

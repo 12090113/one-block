@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     TileController tc;
     AimLine AL;
+    GameObject loseScreen;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
     public FixedJoint2D joint;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        loseScreen = FindObjectOfType<ReloadScene>().loseScreen;
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
         AL = GetComponentInChildren<AimLine>();
@@ -81,6 +83,11 @@ public class PlayerController : MonoBehaviour
             blockrb = null;
             tc.currentBlock = null;
             blockpower = minpower;
+        }
+        if (health <= 0)
+        {
+            loseScreen.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
