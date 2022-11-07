@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ReloadScene : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ReloadScene : MonoBehaviour
     void Start()
     {
         canvas.SetActive(false);
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class ReloadScene : MonoBehaviour
 
     public void Retry()
     {
-        canvas.SetActive(false);
         Time.timeScale = 1;
+        SceneManager.LoadScene("Scene");
     }
 }
