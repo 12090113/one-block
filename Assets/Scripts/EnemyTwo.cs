@@ -58,6 +58,7 @@ public class EnemyTwo : MonoBehaviour
         }
         if(attacktimer >= attackCooldown)
         {
+            Debug.Log("working");
             Attack();
             attacktimer = 0;
         }
