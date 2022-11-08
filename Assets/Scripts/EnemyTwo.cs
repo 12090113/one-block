@@ -24,13 +24,13 @@ public class EnemyTwo : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         playerPos = playerController.gameObject.transform.position;
         thisPos = transform.position;
-        ray = Physics2D.Raycast((Vector2)transform.position + Vector2.down, Vector2.down, Mathf.Infinity);
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        ray = Physics2D.Raycast((Vector2)transform.position + Vector2.down, Vector2.down, Mathf.Infinity);
+
         rb.velocity = rb.velocity + Vector2.up * -Physics2D.gravity.y * Time.fixedDeltaTime;
         //rb.angularVelocity = 10000;
 
