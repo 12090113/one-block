@@ -82,6 +82,7 @@ public class EnemyController : MonoBehaviour
         if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             isTouching = true;
+            player.DamageTaken();
         }
         if(collision.rigidbody != null)
         {

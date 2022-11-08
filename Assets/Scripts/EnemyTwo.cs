@@ -31,7 +31,6 @@ public class EnemyTwo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("its not even running hehe");
         rb.velocity = rb.velocity + Vector2.up * -Physics2D.gravity.y * Time.fixedDeltaTime;
         //rb.angularVelocity = 10000;
 
@@ -62,7 +61,7 @@ public class EnemyTwo : MonoBehaviour
 
 
 
-        if (thisPos.x > playerPos.x)
+       if (thisPos.x > playerPos.x)
         {
             rb.velocity = rb.velocity + new Vector2(-speed , 0);
         }
