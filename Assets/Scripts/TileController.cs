@@ -68,6 +68,12 @@ public class TileController : MonoBehaviour
             box.transform.rotation = ray.transform.rotation;
             box.Draw(Color.black);
         }
+        else if (ray.collider.tag == "TileMap")
+        {
+            box.transform.position = selectedTile;
+            box.transform.rotation = Quaternion.identity;
+            box.Draw(Color.black);
+        }
         else
         {
             box.HideLines();
