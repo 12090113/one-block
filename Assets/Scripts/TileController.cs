@@ -5,9 +5,11 @@ using UnityEngine.Tilemaps;
 
 public class TileController : MonoBehaviour
 {
+    [SerializeField]
+    EnemyTwo et;
     public TileBase currentBlock;
     [SerializeField]
-    GameObject dirtblock;
+    GameObject dirtblock, crumbs;
     DrawBox box;
     Tilemap tilemp;
     [SerializeField]
@@ -16,6 +18,7 @@ public class TileController : MonoBehaviour
     Color badColor;
     [SerializeField]
     LayerMask placeLayers;
+    Vector3[] explosion;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -28,6 +31,8 @@ public class TileController : MonoBehaviour
     }
 
     void Start() {
+        et = FindObjectOfType<EnemyTwo>();
+        explosion = new Vector3[64];
         tilemp = GetComponent<Tilemap>();
         box = FindObjectOfType<DrawBox>();
     }
@@ -128,5 +133,21 @@ public class TileController : MonoBehaviour
         var ray = Physics2D.Raycast(player.transform.position, point - (Vector2)player.transform.position, 100, player.groundLayer);
         if (ray.collider != null)
             Gizmos.DrawLine(player.transform.position, ray.point);
+    }
+
+    public void DestroyArea(RaycastHit2D ray)
+    {
+        Vector3 Hit = ray.point;
+        Vector3Int selectedTile = tilemp.WorldToCell(Hit);
+        Vector3Int TopLeft = tilemp.WorldToCell(Hit) + new Vector3Int(-4 , 4 , 0);
+
+        for (int i = 0; i < Mathf.Sqrt(explosion.Length); i++)
+        {
+            for (int j = 0; j < Mathf.Sqrt(explosion.Length); j++)
+            {
+                Instantiate(crumbs, selectedTile + new Vector3Int(j, -i, 0), Quaternion.identity);
+                tilemp.SetTile(selectedTile + new Vector3Int(j , -i , 0), null);
+            }
+        }
     }
 }
