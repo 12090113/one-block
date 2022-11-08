@@ -12,6 +12,8 @@ public class TileController : MonoBehaviour
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
+    [SerializeField]
+    Color badColor;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -34,24 +36,40 @@ public class TileController : MonoBehaviour
         //Ray for placing blocks
         RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
 
-        if (ray.collider == null)
+        if (ray.collider == null || player.throwing)
         {
             box.HideLines();
             return;
         }
-        else
-            box.Draw();
 
-            if (currentBlock == null)
-                point = ray.point - ray.normal * 0.1f;
-            else
+        if (currentBlock == null)
+            point = ray.point - ray.normal * 0.1f;
+        else
         {
-                point = ray.point + ray.normal * 0.1f;
+            point = ray.point + ray.normal * 0.1f;
         }
 
-            Vector3Int selectedTile = tilemp.WorldToCell(point);
+        Vector3Int selectedTile = tilemp.WorldToCell(point);
 
-        box.transform.position = selectedTile;
+        if (currentBlock != null)
+        {
+            box.transform.position = selectedTile;
+            box.transform.rotation = Quaternion.identity;
+            if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f)))
+                box.Draw(badColor);
+            else
+                box.Draw(Color.black);
+        }
+        else if (ray.collider.tag == "Block")
+        {
+            box.transform.position = ray.transform.position - ray.transform.right * .5f - ray.transform.up * .5f;
+            box.transform.rotation = ray.transform.rotation;
+            box.Draw(Color.black);
+        }
+        else
+        {
+            box.HideLines();
+        }
 
         //if left click
         if (Input.GetMouseButtonDown(0))

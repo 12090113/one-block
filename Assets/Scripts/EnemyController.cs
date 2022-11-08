@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
         }
         if(timer >= hittime && isTouching == true)
         {
-            player.health -= damage;
+            player.Damage(damage);
             timer = 0;
         }
         switch(currentstate)
@@ -82,7 +82,6 @@ public class EnemyController : MonoBehaviour
         if(collision != null && player != null && collision.gameObject == player.gameObject)
         {
             isTouching = true;
-            player.DamageTaken();
         }
         if(collision.rigidbody != null)
         {
@@ -100,7 +99,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if(collision.gameObject != null)
+        if(collision.gameObject == player.gameObject)
         {
             isTouching = false;
         }

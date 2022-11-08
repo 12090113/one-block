@@ -10,13 +10,13 @@ public class DrawBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         box = new Vector3[4];
     }
 
     // Update is called once per frame
-    public void Draw()
+    public void Draw(Color color)
     {
+        lr.startColor = lr.endColor = color;
         lr.positionCount = 4;
         box[0] = Vector3.zero;
         box[1] = Vector3.up;

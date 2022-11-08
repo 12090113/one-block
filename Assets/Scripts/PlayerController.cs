@@ -4,8 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject heldBlock;
     public float health = 100;
+    public bool throwing = false;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.5f;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.2f;
     [SerializeField]
     TileController tc;
     AimLine AL;
@@ -14,7 +15,6 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb, blockrb;
     public FixedJoint2D joint;
     public SpriteRenderer sR;
-    private Color red = Color.red;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +31,12 @@ public class PlayerController : MonoBehaviour
     {
         if(damageTimer >= 0)
         {
-            damageTimer += Time.deltaTime;
             if(damageTimer >= damageInterval)
             {
                 sR.color = Color.white;
                 damageTimer = 0;
             }
+            damageTimer += Time.deltaTime;
         }
         if(Input.GetKey(KeyCode.A))
         {
@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
             AL.Throwing(direction * blockpower, blockrb.mass);
             if (blockpower < maxpower)
                 blockpower += Time.deltaTime * 1000;
+            throwing = true;
         }
         if(Input.GetMouseButtonUp(1) && blockrb != null)
         {
@@ -80,10 +81,12 @@ public class PlayerController : MonoBehaviour
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
             blockrb.AddForce(blockpower * direction, ForceMode2D.Impulse);
+            heldBlock.layer = 0;
             heldBlock = null;
             blockrb = null;
             tc.currentBlock = null;
             blockpower = minpower;
+            throwing = false;
         }
         if (health <= 0)
         {
@@ -106,17 +109,19 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawSphere(transform.position + Vector3.down * .6f, .5f);
     }
 
-    public void DamageTaken()
+    public void Damage(float damage)
     {
-        damageTimer += 0.01f;
+        health -= damage;
+        damageTimer = 0.01f;
         sR.color = Color.red;
     }
 
     public void PickupBlock(GameObject block, bool setMass)
     {
         heldBlock = block;
-        block.transform.rotation = Quaternion.identity;
-        block.transform.position = transform.position + Vector3.up * 1.5f;
+        heldBlock.transform.rotation = Quaternion.identity;
+        heldBlock.transform.position = transform.position + Vector3.up * 1.5f;
+        heldBlock.layer = 8;
         blockrb = heldBlock.GetComponent<Rigidbody2D>();
         if (setMass)
             blockrb.mass = tc.mass[tc.currentBlock];
