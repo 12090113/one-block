@@ -8,7 +8,7 @@ public class EnemyTwo : MonoBehaviour
     [SerializeField]
     Rigidbody2D rb;
     [SerializeField]
-    float gravity = 9.81f, speed = 2, maxVelocityX = 5, hoverDistance = 7;
+    float speed = 2, maxVelocityX = 5, hoverDistance = 7;
     [SerializeField]
     PlayerController playerController;
     //[SerializeField]

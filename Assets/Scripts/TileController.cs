@@ -80,28 +80,16 @@ public class TileController : MonoBehaviour
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
                 {
-                    player.heldBlock = Instantiate(dirtblock, player.transform.position + Vector3.up * 2, Quaternion.identity);
-                    player.heldBlock.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
-                    player.heldBlock.GetComponent<Block>().tile = currentBlock;
-                    player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
-                    player.blockrb.mass = mass[currentBlock];
-                    player.blockrb.velocity = player.rb.velocity;
-                    player.joint.enabled = true;
-                    player.joint.connectedBody = player.blockrb;
+                    GameObject block = Instantiate(dirtblock, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
+                    block.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
+                    block.GetComponent<Block>().tile = currentBlock;
+                    player.PickupBlock(block, true);
                 }
                 else if (ray.collider.tag == "Block")
                 {
-                    currentBlock = tilemp.GetTile(selectedTile);
-                    ray.collider.gameObject.transform.rotation = Quaternion.identity;
-                    ray.collider.gameObject.transform.position = player.transform.position + Vector3.up * 2;
-
-                    player.heldBlock = ray.collider.gameObject;
+                    GameObject block = ray.collider.gameObject;
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
-                    player.blockrb = player.heldBlock.GetComponent<Rigidbody2D>();
-                    player.blockrb.velocity = player.rb.velocity;
-                    player.blockrb.angularVelocity = 0;
-                    player.joint.enabled = true;
-                    player.joint.connectedBody = player.blockrb;
+                    player.PickupBlock(block, false);
                 }
             }
         }
