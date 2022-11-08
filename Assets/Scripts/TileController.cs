@@ -8,6 +8,7 @@ public class TileController : MonoBehaviour
     public TileBase currentBlock;
     [SerializeField]
     GameObject dirtblock;
+    DrawBox box;
     Tilemap tilemp;
     [SerializeField]
     PlayerController player;
@@ -24,28 +25,37 @@ public class TileController : MonoBehaviour
 
     void Start() {
         tilemp = GetComponent<Tilemap>();
+        box = FindObjectOfType<DrawBox>();
     }
     void Update() {
-        //if left click
-        if (Input.GetMouseButtonDown(0))
+        //get the position of the mouse
+        Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //Ray for placing blocks
+        RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
+
+        if (ray.collider == null)
         {
-            //get the position of the mouse
-            Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            //Ray for placing blocks
-            RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
-            if (ray.collider == null)
-            {
-                Debug.Log("hi");
-                return;
-            }
-
+            box.HideLines();
+            return;
+        }
+        else
+            box.Draw();
 
             if (currentBlock == null)
                 point = ray.point - ray.normal * 0.1f;
             else
+        {
                 point = ray.point + ray.normal * 0.1f;
+        }
+
             Vector3Int selectedTile = tilemp.WorldToCell(point);
+
+        box.transform.position = selectedTile;
+
+        //if left click
+        if (Input.GetMouseButtonDown(0))
+        {
 
             //If current type of block exists
             if (currentBlock != null)
