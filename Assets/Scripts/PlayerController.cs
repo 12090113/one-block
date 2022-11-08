@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     public GameObject heldBlock;
     public float health = 100;
     [SerializeField]
-    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, timer = 0, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.5f;
+    float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.5f;
     [SerializeField]
     TileController tc;
     AimLine AL;
@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Player Start");
         rs = FindObjectOfType<ReloadScene>();
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
@@ -112,4 +111,17 @@ public class PlayerController : MonoBehaviour
         sR.color = Color.red;
     }
 
+    public void PickupBlock(GameObject block, bool setMass)
+    {
+        heldBlock = block;
+        block.transform.rotation = Quaternion.identity;
+        block.transform.position = transform.position + Vector3.up * 1.5f;
+        blockrb = heldBlock.GetComponent<Rigidbody2D>();
+        if (setMass)
+            blockrb.mass = tc.mass[tc.currentBlock];
+        blockrb.velocity = rb.velocity;
+        blockrb.angularVelocity = 0;
+        joint.enabled = true;
+        joint.connectedBody = blockrb;
+    }
 }
