@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
             if(damageTimer >= damageInterval)
             {
                 sR.color = Color.white;
+                damageTimer = 0;
             }
         }
         if(Input.GetKey(KeyCode.A))
