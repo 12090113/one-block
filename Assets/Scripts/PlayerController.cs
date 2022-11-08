@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
         sR.color = Color.red;
     }
 
-    public void PickupBlock(GameObject block, bool setMass)
+    public IEnumerator PickupBlock(GameObject block, bool setMass)
     {
         heldBlock = block;
         heldBlock.transform.rotation = Quaternion.identity;
@@ -127,6 +128,8 @@ public class PlayerController : MonoBehaviour
             blockrb.mass = tc.mass[tc.currentBlock];
         blockrb.velocity = rb.velocity;
         blockrb.angularVelocity = 0;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         joint.enabled = true;
         joint.connectedBody = blockrb;
     }

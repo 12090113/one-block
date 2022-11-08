@@ -14,6 +14,8 @@ public class TileController : MonoBehaviour
     PlayerController player;
     [SerializeField]
     Color badColor;
+    [SerializeField]
+    LayerMask placeLayers;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -55,7 +57,7 @@ public class TileController : MonoBehaviour
         {
             box.transform.position = selectedTile;
             box.transform.rotation = Quaternion.identity;
-            if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f)))
+            if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f), placeLayers))
                 box.Draw(badColor);
             else
                 box.Draw(Color.black);
@@ -79,7 +81,7 @@ public class TileController : MonoBehaviour
             if (currentBlock != null)
             {
                 //mouse check where position. Set selection to center of block
-                if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f)))
+                if (Physics2D.OverlapPoint(tilemp.CellToWorld(selectedTile) + new Vector3(.5f, .5f), placeLayers))
                 {
                     return;
                 }
@@ -101,13 +103,13 @@ public class TileController : MonoBehaviour
                     GameObject block = Instantiate(dirtblock, player.transform.position + Vector3.up * 1.5f, Quaternion.identity);
                     block.GetComponent<SpriteRenderer>().sprite = ((RuleTile)currentBlock).m_DefaultSprite;
                     block.GetComponent<Block>().tile = currentBlock;
-                    player.PickupBlock(block, true);
+                    StartCoroutine(player.PickupBlock(block, true));
                 }
                 else if (ray.collider.tag == "Block")
                 {
                     GameObject block = ray.collider.gameObject;
                     currentBlock = ray.collider.gameObject.GetComponent<Block>().tile;
-                    player.PickupBlock(block, false);
+                    StartCoroutine(player.PickupBlock(block, false));
                 }
             }
         }
