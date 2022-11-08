@@ -94,7 +94,7 @@ public class EnemyTwo : MonoBehaviour
             Debug.Log("Right");
             rb.velocity = new Vector2(maxVelocityX, rb.velocity.y);
             RaycastHit2D rightray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
-            if(rightray.collider.gameObject != null)
+            if(rightray.collider != null && rightray.collider.gameObject != null)
             {
                 rb.velocity = rb.velocity + new Vector2(0, -speed);
             }
@@ -105,7 +105,7 @@ public class EnemyTwo : MonoBehaviour
             Debug.Log("Left");
             rb.velocity = new Vector2(-maxVelocityX, rb.velocity.y);
             RaycastHit2D leftray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
-            if (leftray.collider.gameObject != null)
+            if (leftray.collider != null && leftray.collider.gameObject != null)
             {
                 rb.velocity = rb.velocity + new Vector2(0, -speed);
             }
