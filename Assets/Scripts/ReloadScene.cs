@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ReloadScene : MonoBehaviour
 {
-    public GameObject canvas;
+    public GameObject canvas,win,lose;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,14 +20,17 @@ public class ReloadScene : MonoBehaviour
         
     }
 
-    public void StartAgain()
+    public void KeepGoing()
     {
+        win.SetActive(false);
+        lose.SetActive(false);
         canvas.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void Retry()
     {
+        Debug.Log("Is in fact pressing");
         Time.timeScale = 1;
         SceneManager.LoadScene("Scene");
     }

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     TileController tc;
     AimLine AL;
-    GameObject loseScreen;
+    ReloadScene rs;
     public LayerMask groundLayer;
     public Rigidbody2D rb, blockrb;
     public FixedJoint2D joint;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Debug.Log("Player Start");
-        loseScreen = FindObjectOfType<ReloadScene>().canvas;
+        rs = FindObjectOfType<ReloadScene>();
         rb = GetComponent<Rigidbody2D>();
         tc = FindObjectOfType<TileController>();
         AL = GetComponentInChildren<AimLine>();
@@ -87,7 +87,8 @@ public class PlayerController : MonoBehaviour
         }
         if (health <= 0)
         {
-            loseScreen.SetActive(true);
+            rs.canvas.SetActive(true);
+            rs.lose.SetActive(true);
             Time.timeScale = 0;
         }
     }

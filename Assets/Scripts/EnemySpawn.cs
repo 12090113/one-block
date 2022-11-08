@@ -13,7 +13,7 @@ public class EnemySpawn : MonoBehaviour
     public float spawnInterval = 1;
     public int maxenemies = 3;
     [SerializeField]
-    GameObject winScreen;
+    ReloadScene rs;
     public int enemieskilled;
     int wincondition = 10;
     [SerializeField]
@@ -21,6 +21,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rs = FindObjectOfType<ReloadScene>();
     }
 
     // Update is called once per frame
@@ -29,7 +30,8 @@ public class EnemySpawn : MonoBehaviour
         timer += Time.fixedDeltaTime;
         if (enemieskilled >= wincondition)
         {
-            winScreen.SetActive(true);
+            rs.win.SetActive(true);
+            rs.canvas.SetActive(true);
             Time.timeScale = 0;
             enemieskilled = int.MinValue;
         }
