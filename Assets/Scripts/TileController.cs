@@ -135,9 +135,9 @@ public class TileController : MonoBehaviour
             Gizmos.DrawLine(player.transform.position, ray.point);
     }
 
-    public void DestroyArea(RaycastHit2D ray)
+    public void DestroyArea(Vector3 hitLocation)
     {
-        Vector3 Hit = ray.point;
+        Vector3 Hit = hitLocation;
         Vector3Int selectedTile = tilemp.WorldToCell(Hit);
         Vector3Int TopLeft = tilemp.WorldToCell(Hit) + new Vector3Int(-4 , 4 , 0);
 
@@ -145,8 +145,11 @@ public class TileController : MonoBehaviour
         {
             for (int j = 0; j < Mathf.Sqrt(explosion.Length); j++)
             {
-                Instantiate(crumbs, selectedTile + new Vector3Int(j, -i, 0), Quaternion.identity);
-                tilemp.SetTile(selectedTile + new Vector3Int(j , -i , 0), null);
+                if(tilemp.GetTile(selectedTile + new Vector3Int(j, -i, 0)) != null)
+                {
+                    Instantiate(crumbs, selectedTile + new Vector3Int(j, -i, 0), Quaternion.identity);
+                    tilemp.SetTile(selectedTile + new Vector3Int(j, -i, 0), null);
+                }
             }
         }
     }

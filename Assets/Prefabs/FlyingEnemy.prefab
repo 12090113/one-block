@@ -47,6 +47,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4257b36b7692a447b6c29e508ca8285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  seaLevel: 0
+  currentExplosion: {fileID: 0}
+  explodePrefab: {fileID: 7720316177663283999, guid: 2902d9f9d91c69345bfe408857478523, type: 3}
+  rb: {fileID: 0}
+  speed: 2
+  maxVelocityX: 5
+  hoverDistance: 7
+  timer: 0
+  attacktimer: 0
+  attackCooldown: 0
+  explosionTimer: 0
+  playerController: {fileID: 0}
+  tc: {fileID: 0}
 --- !u!212 &7406722586172584120
 SpriteRenderer:
   m_ObjectHideFlags: 0

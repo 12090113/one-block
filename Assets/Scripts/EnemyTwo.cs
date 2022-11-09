@@ -46,16 +46,6 @@ public class EnemyTwo : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        if(isExplosionTrue == true)
-        {
-            explosionTimer += Time.deltaTime;
-        }
-        if(explosionTimer >= 0.2f)
-        {
-            currentExplosion.SetActive(false);
-            explosionTimer = 0;
-        }
         if(attacktimer >= attackCooldown)
         {
             Debug.Log("working");
@@ -130,15 +120,7 @@ public class EnemyTwo : MonoBehaviour
     public void Attack()
     {
         ray = Physics2D.Raycast((Vector2)transform.position + Vector2.down, Vector2.down, Mathf.Infinity);
-        if(currentExplosion == null)
-        currentExplosion = Instantiate(explodePrefab, ray.point, Quaternion.identity);
-        else
-        {
-            currentExplosion.transform.position = ray.point;
-            currentExplosion.SetActive(true);
-        }
-        tc.DestroyArea(ray);
-        isExplosionTrue = true;
+        currentExplosion = Instantiate(explodePrefab, transform.position + Vector3.down * 1.5f, Quaternion.identity);
     }
 
     public void UpRightLeftDown()
