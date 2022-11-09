@@ -13,15 +13,12 @@ public class EnemySpawn : MonoBehaviour
     public float spawnInterval = 1;
     public int maxenemies = 3;
     [SerializeField]
-    ReloadScene rs;
     public int enemieskilled;
-    int wincondition = 10;
     [SerializeField]
     public List <GameObject> enemies;
     // Start is called before the first frame update
     void Start()
     {
-        rs = FindObjectOfType<ReloadScene>();
     }
 
     // Update is called once per frame
@@ -49,5 +46,25 @@ public class EnemySpawn : MonoBehaviour
                 
             }
         }
+    }
+
+    public Vector3 SpawnPos()
+    {
+        RaycastHit2D ray;
+        int tries = 0;
+        do
+        {
+            tries++;
+            if (tries > 5)
+            {
+                return new Vector3(10000, 10, 0);
+            }
+            var vertExtent = Camera.main.orthographicSize;
+            var horzExtent = vertExtent * Screen.width / Screen.height;
+            float pos = Random.Range(horzExtent, horzExtent + 50) * (Random.Range(0, 2) * 2 - 1);
+            ray = Physics2D.Raycast(new Vector2(pos, 10000) + (Vector2)transform.position, Vector2.down, Mathf.Infinity);
+        }
+        while (ray.collider == null || (ray.collider.tag != "TileMap" && ray.collider.tag != "Block"));
+        return ray.point;
     }
 }

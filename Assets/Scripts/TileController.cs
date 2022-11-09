@@ -19,9 +19,8 @@ public class TileController : MonoBehaviour
     Color badColor;
     [SerializeField]
     LayerMask placeLayers;
-    Vector3[] explosion;
     [SerializeField]
-    float degrees = 20, radius = 1;
+    float radius = 1;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -35,7 +34,6 @@ public class TileController : MonoBehaviour
 
     void Start() {
         et = FindObjectOfType<EnemyTwo>();
-        explosion = new Vector3[64];
         tilemp = GetComponent<Tilemap>();
         box = FindObjectOfType<DrawBox>();
     }
@@ -99,7 +97,6 @@ public class TileController : MonoBehaviour
                 {
                     return;
                 }
-                Debug.Log(currentBlock.name);
                 //set tile at location to currentBlock type.
                 tilemp.SetTile(selectedTile, currentBlock);
                 //set the blocktype to null.
