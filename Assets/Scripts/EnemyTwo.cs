@@ -69,19 +69,19 @@ public class EnemyTwo : MonoBehaviour
         if (thisPos.y - ray.point.y > hoverDistance + 3)
         {
             rb.velocity = rb.velocity + new Vector2(0, -speed);
-            Debug.Log("going down " + (thisPos.y - ray.point.y));
+            //Debug.Log("going down " + (thisPos.y - ray.point.y));
         }
         //if y value too close to ground, or below sea level
         if (thisPos.y - ray.point.y < hoverDistance - 3 || thisPos.y <= seaLevel || thisPos.y <= playerPos.y)
         {
                 rb.velocity = rb.velocity + new Vector2(0, speed);
-            Debug.Log("going up " + (thisPos.y) + "    " + (ray.point.y));
+            //Debug.Log("going up " + (thisPos.y) + "    " + (ray.point.y));
         }
 
         //if velocity x is too big,
         if(rb.velocity.x > maxVelocityX)
         {
-            Debug.Log("Right");
+            //Debug.Log("Right");
             rb.velocity = new Vector2(maxVelocityX, rb.velocity.y);
             RaycastHit2D rightray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
             if(rightray.collider != null && rightray.collider.gameObject != null)
@@ -92,7 +92,7 @@ public class EnemyTwo : MonoBehaviour
         //if velocity x is too small,
         if(rb.velocity.x < -maxVelocityX)
         {
-            Debug.Log("Left");
+            //Debug.Log("Left");
             rb.velocity = new Vector2(-maxVelocityX, rb.velocity.y);
             RaycastHit2D leftray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
             if (leftray.collider != null && leftray.collider.gameObject != null)

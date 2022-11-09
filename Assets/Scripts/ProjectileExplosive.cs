@@ -23,7 +23,7 @@ public class ProjectileExplosive : MonoBehaviour
     {
         if(collision.gameObject != ec.gameObject)
         {
-            tc.DestroyArea(transform.position + new Vector3(-4,4,0));
+            tc.DestroyArea(transform.position);
             if(gameObject != null)
             Destroy(gameObject);
         }
