@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -19,6 +20,8 @@ public class TileController : MonoBehaviour
     [SerializeField]
     LayerMask placeLayers;
     Vector3[] explosion;
+    [SerializeField]
+    float degrees = 20, radius = 1;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -135,19 +138,52 @@ public class TileController : MonoBehaviour
             Gizmos.DrawLine(player.transform.position, ray.point);
     }
 
-    public void DestroyArea(RaycastHit2D ray)
+    public void DestroyArea(Vector3 hitLocation)
     {
-        Vector3 Hit = ray.point;
+        Vector3 Hit = hitLocation;
         Vector3Int selectedTile = tilemp.WorldToCell(Hit);
-        Vector3Int TopLeft = tilemp.WorldToCell(Hit) + new Vector3Int(-4 , 4 , 0);
 
+        for(int i = 0; i < 360; i += 20)
+        {
+            float x = radius * Mathf.Cos(Mathf.Deg2Rad * i) + selectedTile.x;
+            float y = radius * Mathf.Sin(Mathf.Deg2Rad * i) + selectedTile.y;
+
+            Vector3Int Location = tilemp.WorldToCell(Hit);
+            if(tilemp.WorldToCell(new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)) != null)
+            {
+                tilemp.SetTile((new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)), null);
+            }
+        }
+
+        for(int j = 0; j < 10; j++)
+        {
+            float newradius = radius - j;
+            for (int i = 0; i < 360; i += 20)
+            {
+                float x = newradius * Mathf.Cos(Mathf.Deg2Rad * i) + selectedTile.x;
+                float y = newradius * Mathf.Sin(Mathf.Deg2Rad * i) + selectedTile.y;
+
+                Vector3Int Location = tilemp.WorldToCell(Hit);
+                if (tilemp.WorldToCell(new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)) != null)
+                {
+                    tilemp.SetTile((new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)), null);
+                }
+            }
+        }
+
+        /*
         for (int i = 0; i < Mathf.Sqrt(explosion.Length); i++)
         {
             for (int j = 0; j < Mathf.Sqrt(explosion.Length); j++)
             {
-                Instantiate(crumbs, selectedTile + new Vector3Int(j, -i, 0), Quaternion.identity);
-                tilemp.SetTile(selectedTile + new Vector3Int(j , -i , 0), null);
+                Debug.Log(i + j);
+                if(tilemp.GetTile(selectedTile + new Vector3Int(j, -i, 0)) != null && !(i == 0 && j == 0 || i == Mathf.Sqrt(explosion.Length) - 1 && j == Mathf.Sqrt(explosion.Length) - 1))
+                {
+                    Instantiate(crumbs, selectedTile + new Vector3Int(j, -i, 0), Quaternion.identity);
+                    tilemp.SetTile(selectedTile + new Vector3Int(j, -i, 0), null);
+                }
             }
         }
+        */
     }
 }
