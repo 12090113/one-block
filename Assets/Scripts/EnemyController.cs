@@ -75,6 +75,10 @@ public class EnemyController : MonoBehaviour
             case AIstate.Idle:
                 break;
         }
+        if (Vector3.Distance(player.transform.position,transform.position) > 100)
+        {
+            Health -= 1000;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
