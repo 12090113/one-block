@@ -28,14 +28,6 @@ public class EnemySpawn : MonoBehaviour
     void FixedUpdate()
     {
         timer += Time.fixedDeltaTime;
-        if (enemieskilled >= wincondition)
-        {
-            rs.win.SetActive(true);
-            rs.canvas.SetActive(true);
-            Time.timeScale = 0;
-            enemieskilled = int.MinValue;
-        }
-
         if (timer < spawnInterval || enemies.Count >= maxenemies)
             return;
         var vertExtent = Camera.main.orthographicSize;
