@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyTwo : MonoBehaviour
 {
+    [SerializeField]
+    EnemySpawn spawner;
     float blockDamage = 0.01f;
     [SerializeField]
     float health = 100;
@@ -32,6 +34,7 @@ public class EnemyTwo : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
+        spawner = FindObjectOfType<EnemySpawn>();
     }
 
     private void Update()
@@ -41,7 +44,7 @@ public class EnemyTwo : MonoBehaviour
 
         if(health <= 0 && gameObject != null)
         {
-            Destroy(gameObject);
+            Die(true);
         }
         if(attacktimer >= attackCooldown)
         {
@@ -120,7 +123,10 @@ public class EnemyTwo : MonoBehaviour
                 state = AIstate.Chasing;
             }
         }
-
+        if (Mathf.Abs(playerController.transform.position.x - transform.position.x) > 60)
+        {
+            Die();
+        }
     }
 
     public void Attack()
@@ -156,5 +162,13 @@ public class EnemyTwo : MonoBehaviour
         {
             health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
         }
+    }
+
+    void Die(bool byPlayer = false)
+    {
+        if (byPlayer)
+            spawner.enemieskilled++;
+        transform.position = spawner.SpawnPos() + Vector3.up * 10f;
+        health = 300f;
     }
 }

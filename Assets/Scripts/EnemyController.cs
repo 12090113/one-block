@@ -127,7 +127,8 @@ public class EnemyController : MonoBehaviour
 
     void Die(bool byPlayer = false)
     {
-        EC.enemieskilled++;
+        if (byPlayer)
+            EC.enemieskilled++;
         transform.position = EC.SpawnPos();
         Health = 100f;
     }
