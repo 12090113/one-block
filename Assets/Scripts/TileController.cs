@@ -10,6 +10,8 @@ public class TileController : MonoBehaviour
     EnemyTwo et;
     public TileBase currentBlock;
     [SerializeField]
+    TileBase unbreakable;
+    [SerializeField]
     GameObject dirtblock, crumbs;
     DrawBox box;
     Tilemap tilemp;
@@ -108,6 +110,11 @@ public class TileController : MonoBehaviour
             else
             {
                 currentBlock = tilemp.GetTile(selectedTile);
+                if (currentBlock == unbreakable)
+                {
+                    currentBlock = null;
+                    return;
+                }
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
                 {
