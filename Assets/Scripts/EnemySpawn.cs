@@ -65,6 +65,6 @@ public class EnemySpawn : MonoBehaviour
             ray = Physics2D.Raycast(new Vector2(pos, 10000) + (Vector2)transform.position, Vector2.down, Mathf.Infinity);
         }
         while (ray.collider == null || (ray.collider.tag != "TileMap" && ray.collider.tag != "Block"));
-        return ray.point;
+        return ray.point + Vector2.up;
     }
 }
