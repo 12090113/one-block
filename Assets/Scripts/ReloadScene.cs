@@ -10,7 +10,6 @@ public class ReloadScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canvas.SetActive(false);
         Time.timeScale = 1;
     }
 
@@ -24,7 +23,6 @@ public class ReloadScene : MonoBehaviour
     {
         win.SetActive(false);
         lose.SetActive(false);
-        canvas.SetActive(false);
         Time.timeScale = 1;
     }
 
