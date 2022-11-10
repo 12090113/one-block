@@ -10,6 +10,8 @@ public class TileController : MonoBehaviour
     EnemyTwo et;
     public TileBase currentBlock;
     [SerializeField]
+    TileBase unbreakable;
+    [SerializeField]
     GameObject dirtblock, crumbs;
     DrawBox box;
     Tilemap tilemp;
@@ -19,9 +21,8 @@ public class TileController : MonoBehaviour
     Color badColor;
     [SerializeField]
     LayerMask placeLayers;
-    Vector3[] explosion;
     [SerializeField]
-    float degrees = 20, radius = 1;
+    float radius = 1;
 
     [Serializable]
     public class TileFloatDictionary : SerializableDictionary<TileBase, float> { }
@@ -35,7 +36,6 @@ public class TileController : MonoBehaviour
 
     void Start() {
         et = FindObjectOfType<EnemyTwo>();
-        explosion = new Vector3[64];
         tilemp = GetComponent<Tilemap>();
         box = FindObjectOfType<DrawBox>();
     }
@@ -99,7 +99,6 @@ public class TileController : MonoBehaviour
                 {
                     return;
                 }
-                Debug.Log(currentBlock.name);
                 //set tile at location to currentBlock type.
                 tilemp.SetTile(selectedTile, currentBlock);
                 //set the blocktype to null.
@@ -111,6 +110,11 @@ public class TileController : MonoBehaviour
             else
             {
                 currentBlock = tilemp.GetTile(selectedTile);
+                if (currentBlock == unbreakable)
+                {
+                    currentBlock = null;
+                    return;
+                }
                 tilemp.SetTile(selectedTile, null);
                 if (currentBlock != null)
                 {

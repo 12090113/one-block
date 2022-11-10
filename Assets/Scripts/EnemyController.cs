@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
         }
         if (Health <= 0 && gameObject != null)
         {
-            Destroy(gameObject);
+            Die(true);
         }
         if(timer >= hittime && isTouching == true)
         {
@@ -74,6 +74,14 @@ public class EnemyController : MonoBehaviour
                 break;
             case AIstate.Idle:
                 break;
+        }
+        float dist = Mathf.Abs(player.transform.position.x - transform.position.x);
+        if (dist > 60 && rb.velocity.magnitude < 0.1)
+        {
+            Die();
+        } else if (dist > 100)
+        {
+            Die();
         }
     }
 
@@ -117,9 +125,16 @@ public class EnemyController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpPower);
     }
 
+    void Die(bool byPlayer = false)
+    {
+        if (byPlayer)
+            EC.enemieskilled++;
+        transform.position = EC.SpawnPos();
+        Health = 100f;
+    }
+
     private void OnDestroy()
     {
         EC.enemies.Remove(gameObject);
-        EC.enemieskilled++;
     }
 }

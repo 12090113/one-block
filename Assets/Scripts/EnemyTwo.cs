@@ -4,36 +4,37 @@ using UnityEngine;
 
 public class EnemyTwo : MonoBehaviour
 {
+    [SerializeField]
+    EnemySpawn spawner;
     float blockDamage = 0.01f;
     [SerializeField]
     float health = 100;
     [SerializeField]
     int seaLevel = 0;
     [SerializeField]
-    GameObject currentExplosion;
-    [SerializeField]
     GameObject explodePrefab;
     [SerializeField]
     Rigidbody2D rb;
     [SerializeField]
     float speed = 2, maxVelocityX = 5, hoverDistance = 7, timer, attacktimer, attackCooldown, explosionTimer;
-    bool isExplosionTrue;
-    [SerializeField]
     PlayerController playerController;
     [SerializeField]
-    TileController tc;
-    //[SerializeField]
     Vector3 playerPos;
     Vector3 thisPos;
     RaycastHit2D ray;
-    //[SerializeField]
+    enum AIstate
+    {
+        Chasing, OverLeft, OverRight
+    }
+    [SerializeField]
+    AIstate state;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        tc = FindObjectOfType<TileController>();
         playerController = FindObjectOfType<PlayerController>();
+        spawner = FindObjectOfType<EnemySpawn>();
     }
 
     private void Update()
@@ -43,11 +44,10 @@ public class EnemyTwo : MonoBehaviour
 
         if(health <= 0 && gameObject != null)
         {
-            Destroy(gameObject);
+            Die(true);
         }
         if(attacktimer >= attackCooldown)
         {
-            Debug.Log("working");
             Attack();
             attacktimer = 0;
         }
@@ -71,9 +71,9 @@ public class EnemyTwo : MonoBehaviour
             //Debug.Log("going down " + (thisPos.y - ray.point.y));
         }
         //if y value too close to ground, or below sea level
-        if (thisPos.y - ray.point.y < hoverDistance - 3 || thisPos.y <= seaLevel || thisPos.y <= playerPos.y)
+        if ((thisPos.y - ray.point.y < hoverDistance - 3 || thisPos.y <= seaLevel || thisPos.y <= playerPos.y) && state == AIstate.Chasing)
         {
-                rb.velocity = rb.velocity + new Vector2(0, speed);
+            rb.velocity = rb.velocity + new Vector2(0, speed);
             //Debug.Log("going up " + (thisPos.y) + "    " + (ray.point.y));
         }
 
@@ -82,44 +82,56 @@ public class EnemyTwo : MonoBehaviour
         {
             //Debug.Log("Right");
             rb.velocity = new Vector2(maxVelocityX, rb.velocity.y);
-            RaycastHit2D rightray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
-            if(rightray.collider != null && rightray.collider.gameObject != null)
-            {
-                rb.velocity = rb.velocity + new Vector2(0, -speed);
-            }
         }
         //if velocity x is too small,
         if(rb.velocity.x < -maxVelocityX)
         {
             //Debug.Log("Left");
             rb.velocity = new Vector2(-maxVelocityX, rb.velocity.y);
-            RaycastHit2D leftray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.down, 5);
-            if (leftray.collider != null && leftray.collider.gameObject != null)
-            {
-                rb.velocity = rb.velocity + new Vector2(0, -speed);
-            }
         }
 
 
         //if position is right of player
-       if (thisPos.x > playerPos.x + 1)
+        if (thisPos.x > playerPos.x + 1)
         {
             //set velocity to go left
             rb.velocity = rb.velocity + new Vector2(-speed , 0);
+            RaycastHit2D leftray = Physics2D.Raycast((Vector2)transform.position + Vector2.left, Vector2.left, 5);
+            if (leftray.collider != null && Mathf.Abs(playerPos.x - thisPos.x) > 3 && state != AIstate.OverRight)
+            {
+                state = AIstate.OverLeft;
+                rb.velocity = rb.velocity + new Vector2(0, speed * 4);
+            }
+            else if (state == AIstate.OverLeft)
+            {
+                state = AIstate.Chasing;
+            }
         }
-       //if position is left of player
+        //if position is left of player
         else if (thisPos.x < playerPos.x - 1)
         {
             //set velocity to go right
             rb.velocity = rb.velocity + new Vector2(speed , 0);
+            RaycastHit2D rightray = Physics2D.Raycast((Vector2)transform.position + Vector2.right, Vector2.right, 5);
+            if (rightray.collider != null && Mathf.Abs(playerPos.x - thisPos.x) > 3 && state != AIstate.OverLeft)
+            {
+                state = AIstate.OverRight;
+                rb.velocity = rb.velocity + new Vector2(0, speed * 4);
+            }
+            else if (state == AIstate.OverRight)
+            {
+                state = AIstate.Chasing;
+            }
         }
-
+        if (Mathf.Abs(playerController.transform.position.x - transform.position.x) > 60)
+        {
+            Die();
+        }
     }
 
     public void Attack()
     {
-        ray = Physics2D.Raycast((Vector2)transform.position + Vector2.down, Vector2.down, Mathf.Infinity);
-        currentExplosion = Instantiate(explodePrefab, transform.position + Vector3.down * 1.5f, Quaternion.identity);
+        Instantiate(explodePrefab, transform.position + Vector3.down * 1.5f, Quaternion.identity);
     }
 
     public void UpRightLeftDown()
@@ -150,5 +162,13 @@ public class EnemyTwo : MonoBehaviour
         {
             health -= 0.5f * collision.rigidbody.mass * Mathf.Pow(collision.relativeVelocity.magnitude, 2) * blockDamage;
         }
+    }
+
+    void Die(bool byPlayer = false)
+    {
+        if (byPlayer)
+            spawner.enemieskilled++;
+        transform.position = spawner.SpawnPos() + Vector3.up * 10f;
+        health = 300f;
     }
 }
