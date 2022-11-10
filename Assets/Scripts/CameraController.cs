@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
     private Transform player;
     private float speed = 0.125f;
     public Vector3 offset = new Vector3(0, 0, -10);
+    public GameObject bg;
     public float scrollSpeed = 0.1f;
     private Camera cam;
     private float scroll;
@@ -27,5 +28,6 @@ public class CameraController : MonoBehaviour
             scroll = Mathf.Clamp(scroll, 3, 20);
         }
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, scroll, 0.1f);
+        bg.transform.localScale = new Vector3(cam.orthographicSize * 0.3f, cam.orthographicSize * 0.3f);
     }
 }
