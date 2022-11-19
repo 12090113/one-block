@@ -12,6 +12,8 @@ public class TileController : MonoBehaviour
     [SerializeField]
     TileBase unbreakable;
     [SerializeField]
+    TileBase endgame;
+    [SerializeField]
     GameObject dirtblock, crumbs;
     DrawBox box;
     Tilemap tilemp;
@@ -152,10 +154,11 @@ public class TileController : MonoBehaviour
             float x = radius * Mathf.Cos(Mathf.Deg2Rad * i) + selectedTile.x;
             float y = radius * Mathf.Sin(Mathf.Deg2Rad * i) + selectedTile.y;
 
-            Vector3Int Location = tilemp.WorldToCell(Hit);
-            if(tilemp.WorldToCell(new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)) != null)
+            Vector3Int Location = new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0);
+            var tile = tilemp.GetTile(Location);
+            if (tile != null && tile != unbreakable && tile != endgame)
             {
-                tilemp.SetTile((new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)), null);
+                tilemp.SetTile(Location, null);
             }
         }
 
@@ -167,10 +170,11 @@ public class TileController : MonoBehaviour
                 float x = newradius * Mathf.Cos(Mathf.Deg2Rad * i) + selectedTile.x;
                 float y = newradius * Mathf.Sin(Mathf.Deg2Rad * i) + selectedTile.y;
 
-                Vector3Int Location = tilemp.WorldToCell(Hit);
-                if (tilemp.WorldToCell(new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)) != null)
+                Vector3Int Location = new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0);
+                var tile = tilemp.GetTile(Location);
+                if (tile != null && tile != unbreakable && tile != endgame)
                 {
-                    tilemp.SetTile((new Vector3Int((int)Mathf.Round(x), (int)Mathf.Round(y), 0)), null);
+                    tilemp.SetTile(Location, null);
                 }
             }
         }

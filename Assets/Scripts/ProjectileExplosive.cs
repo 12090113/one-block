@@ -21,7 +21,7 @@ public class ProjectileExplosive : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject != ec.gameObject)
+        if(collision.gameObject.tag != "Enemy")
         {
             tc.DestroyArea(transform.position);
             if(gameObject != null)

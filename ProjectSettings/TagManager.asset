@@ -8,6 +8,7 @@ TagManager:
   - Block
   - LoseScreen
   - HoverOverlay
+  - Enemy
   layers:
   - Default
   - TransparentFX

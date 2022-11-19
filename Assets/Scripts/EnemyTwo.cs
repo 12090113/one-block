@@ -18,6 +18,7 @@ public class EnemyTwo : MonoBehaviour
     [SerializeField]
     float speed = 2, maxVelocityX = 5, hoverDistance = 7, timer, attacktimer, attackCooldown, explosionTimer;
     PlayerController playerController;
+    TileController tileController;
     [SerializeField]
     Vector3 playerPos;
     Vector3 thisPos;
@@ -35,6 +36,7 @@ public class EnemyTwo : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
         spawner = FindObjectOfType<EnemySpawn>();
+        tileController = FindObjectOfType<TileController>();
     }
 
     private void Update()
@@ -59,6 +61,11 @@ public class EnemyTwo : MonoBehaviour
         ray = Physics2D.Raycast((Vector2)transform.position + Vector2.down, Vector2.down, Mathf.Infinity);
         playerPos = playerController.gameObject.transform.position;
         thisPos = transform.position;
+
+        if (rb.velocity.y < 0.1f && rb.velocity.y > -0.1f && state != AIstate.Chasing)
+        {
+            tileController.DestroyArea(thisPos);
+        }
 
         //Defy Gravity mwhhahaha-
         rb.velocity = rb.velocity + Vector2.up * -Physics2D.gravity.y * Time.fixedDeltaTime;
