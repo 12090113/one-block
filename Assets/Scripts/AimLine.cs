@@ -27,12 +27,12 @@ public class AimLine : MonoBehaviour
         }
     }
 
-    public void Throwing(Vector2 force, float mass)
+    public void Throwing(Vector2 force, float mass, Vector2 vel)
     {
         transform.position = PC.heldBlock.transform.position;
         positions = new Vector3[length];
         lr.positionCount = length;
-        Vector3 initialVelocity = force / mass;
+        Vector3 initialVelocity = force / mass + vel;
         for (int i = 1; i < positions.Length; i++)
         {
             float time = i * kirbyiness;

@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (point - (Vector2)heldBlock.transform.position).normalized;
-            AL.Throwing(direction * blockpower, blockrb.mass);
+            AL.Throwing(direction * blockpower, blockrb.mass, rb.velocity);
             if (blockpower < maxpower)
                 blockpower += Time.deltaTime * 1000;
             throwing = true;
