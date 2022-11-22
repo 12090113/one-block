@@ -62,7 +62,7 @@ public class EnemyTwo : MonoBehaviour
         playerPos = playerController.gameObject.transform.position;
         thisPos = transform.position;
 
-        if (rb.velocity.y < 0.1f && rb.velocity.y > -0.1f && state != AIstate.Chasing)
+        if (rb.velocity.y < 0.1f && rb.velocity.y > -0.1f && rb.velocity.x < 0.1f && rb.velocity.x > -0.1f && state != AIstate.Chasing)
         {
             tileController.DestroyArea(thisPos);
         }
