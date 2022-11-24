@@ -46,9 +46,9 @@ public class TileController : MonoBehaviour
             return;
         //get the position of the mouse
         Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+        Vector2 playerPlacePos = (Vector2)player.transform.position + Vector2.up * .5f;
         //Ray for placing blocks
-        RaycastHit2D ray = Physics2D.Raycast(player.transform.position, point-(Vector2)player.transform.position, 100, player.groundLayer);
+        RaycastHit2D ray = Physics2D.Raycast(playerPlacePos, point-playerPlacePos, 100, player.groundLayer);
 
         if (ray.collider == null || player.throwing)
         {
