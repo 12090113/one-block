@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public bool throwing = false;
     [SerializeField]
     float speed = 2f, jumpForce = 10f, maxVelocityX = 10, ySpeedLimit = 10, blockpower = 10, minpower = 10, maxpower = 30, damageTimer, damageInterval = 0.2f;
-    float lightmode = 0;
     [SerializeField]
     TileController tc;
     AimLine AL;

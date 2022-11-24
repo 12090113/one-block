@@ -6,17 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class ReloadScene : MonoBehaviour
 {
-    public GameObject canvas,win,lose;
+    public GameObject canvas,win,lose,menu,stats;
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void HideMenu()
+    {
+        menu.SetActive(false);
+        stats.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void KeepGoing()
@@ -28,8 +35,6 @@ public class ReloadScene : MonoBehaviour
 
     public void Retry()
     {
-        Debug.Log("Is in fact pressing");
-        Time.timeScale = 1;
         SceneManager.LoadScene("Scene");
     }
 }

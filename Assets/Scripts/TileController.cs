@@ -42,6 +42,8 @@ public class TileController : MonoBehaviour
         box = FindObjectOfType<DrawBox>();
     }
     void Update() {
+        if (Time.timeScale == 0)
+            return;
         //get the position of the mouse
         Vector2 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
