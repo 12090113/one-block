@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ReloadScene : MonoBehaviour
 {
-    public GameObject canvas,win,lose,menu,stats,help;
+    public GameObject canvas,win,lose,menu,stats,help,pause;
+    public bool ingame = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,20 @@ public class ReloadScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (ingame && Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
+
+    public void End(bool won)
+    {
+        if(won)
+            win.SetActive(true);
+        else
+            lose.SetActive(true);
+        Time.timeScale = 0;
+        ingame = false;
     }
 
     public void HideMenu()
@@ -24,6 +38,7 @@ public class ReloadScene : MonoBehaviour
         menu.SetActive(false);
         stats.SetActive(true);
         Time.timeScale = 1;
+        ingame = true;
     }
 
     public void KeepGoing()
@@ -31,11 +46,13 @@ public class ReloadScene : MonoBehaviour
         win.SetActive(false);
         lose.SetActive(false);
         Time.timeScale = 1;
+        ingame = true;
     }
 
     public void Retry()
     {
         SceneManager.LoadScene("Scene");
+        ingame = false;
     }
 
     public void ToggleHelp()
@@ -46,6 +63,20 @@ public class ReloadScene : MonoBehaviour
         } else
         {
             help.SetActive(true);
+        }
+    }
+
+    public void TogglePause()
+    {
+        if (pause.activeSelf == true)
+        {
+            pause.SetActive(false);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            pause.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 }

@@ -12,6 +12,7 @@ public class AimLine : MonoBehaviour
     [SerializeField]
     LineRenderer lr;
     Vector3[] positions;
+    bool clear = false;
     void Start()
     {
         PC = GetComponentInParent<PlayerController>();
@@ -21,9 +22,18 @@ public class AimLine : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonUp(1))
+        if(Input.GetMouseButtonUp(1) && Time.timeScale != 0)
         {
-            lr.positionCount = 0;
+            Clear();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (clear)
+        {
+            Clear();
+            clear = false;
         }
     }
 
@@ -46,5 +56,13 @@ public class AimLine : MonoBehaviour
     {
         lr.startColor = Color.Lerp(start, end, duration);
         lr.endColor = lr.startColor;
+    }
+
+    public void Clear(bool paused = false)
+    {
+        if (!paused)
+            lr.positionCount = 0;
+        else
+            clear = true;
     }
 }

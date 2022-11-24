@@ -24,9 +24,7 @@ public class Door : MonoBehaviour
     {
         if(collision.gameObject == pc.gameObject)
         {
-            rs.win.SetActive(true);
-            rs.canvas.SetActive(true);
-            Time.timeScale = 0;
+            rs.End(true);
         }
     }
 }

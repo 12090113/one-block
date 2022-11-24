@@ -63,6 +63,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            if (Input.GetMouseButtonUp(1) && blockrb != null)
+            {
+                blockpower = minpower;
+                throwing = false;
+                AL.Clear(true);
+            }
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && rb.velocity.y <= ySpeedLimit)
         {
             rb.velocity += Vector2.up * jumpForce;
@@ -92,9 +102,7 @@ public class PlayerController : MonoBehaviour
         }
         if (health <= 0)
         {
-            rs.canvas.SetActive(true);
-            rs.lose.SetActive(true);
-            Time.timeScale = 0;
+            rs.End(false);
         }
     }
 
