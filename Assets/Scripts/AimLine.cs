@@ -41,4 +41,10 @@ public class AimLine : MonoBehaviour
         }
         lr.SetPositions(positions);
     }
+
+    public void ColorLerp(Color start, Color end, float duration)
+    {
+        lr.startColor = Color.Lerp(start, end, duration);
+        lr.endColor = lr.startColor;
+    }
 }

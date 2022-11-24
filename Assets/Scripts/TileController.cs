@@ -93,7 +93,7 @@ public class TileController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
 
-            //If current type of block exists
+            //If block is picked up already
             if (currentBlock != null)
             {
                 //mouse check where position. Set selection to center of block
