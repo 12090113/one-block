@@ -43,7 +43,8 @@ public class EnemyController : MonoBehaviour
         {
             Jump();
         }
-        if (Health <= 0 && gameObject != null)
+        float dist = Mathf.Abs(player.transform.position.x - transform.position.x);
+        if (Health <= 0 && gameObject != null && (dist < 60 || rb.velocity.magnitude > 0.1) && dist < 100)
         {
             Die(true);
         }
@@ -75,7 +76,6 @@ public class EnemyController : MonoBehaviour
             case AIstate.Idle:
                 break;
         }
-        float dist = Mathf.Abs(player.transform.position.x - transform.position.x);
         if (dist > 60 && rb.velocity.magnitude < 0.1)
         {
             Die();
@@ -127,7 +127,7 @@ public class EnemyController : MonoBehaviour
 
     void Die(bool byPlayer = false)
     {
-        if (byPlayer)
+        if (byPlayer && transform.position.x < 9900)
             EC.enemieskilled++;
         transform.position = EC.SpawnPos();
         Health = 100f;
